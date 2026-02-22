@@ -2,15 +2,16 @@ export const SITE_CONFIG = {
     name: "BrokenN Shell Docs",
     description:
         "Open-source educational platform with markdown-based roadmaps and developer notes.",
-    url: "https://docs.brokenshell.dev",
-    github: "https://github.com/brokenshell/docs",
+    url: "https://docs.brokennshell.com",
+    github: "https://github.com/brokennshell/docs",
+    githubOrg: "https://github.com/brokennshell",
     author: "BrokenN Shell",
 } as const;
 
 export const NAV_LINKS = [
     { label: "Home", href: "/" },
     { label: "Domains", href: "/#domains" },
-    { label: "GitHub", href: SITE_CONFIG.github, external: true },
+    { label: "GitHub", href: SITE_CONFIG.githubOrg, external: true },
 ] as const;
 
 export const DOMAIN_COLORS: Record<string, string> = {
@@ -23,4 +24,4 @@ export const DOMAIN_COLORS: Record<string, string> = {
 };
 
 export const GITHUB_CONTENT_BASE =
-    "https://github.com/brokenshell/docs/edit/main/content";
+    "https://github.com/brokennshell/docs/edit/main/content";

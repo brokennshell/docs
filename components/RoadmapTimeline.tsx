@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Roadmap } from "@/types";
 
@@ -15,7 +16,7 @@ export default function RoadmapTimeline({ roadmap }: RoadmapTimelineProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const lineRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
+    useGSAP(() => {
         if (!containerRef.current || !lineRef.current) return;
 
         const nodes = gsap.utils.toArray<HTMLElement>(".timeline-node");
@@ -60,7 +61,7 @@ export default function RoadmapTimeline({ roadmap }: RoadmapTimelineProps) {
         return () => {
             ScrollTrigger.getAll().forEach((st) => st.kill());
         };
-    }, []);
+    }, { scope: containerRef });
 
     if (!roadmap || !roadmap.steps?.length) {
         return <p className="text-center text-text-tertiary">No roadmap steps found.</p>;
@@ -73,12 +74,12 @@ export default function RoadmapTimeline({ roadmap }: RoadmapTimelineProps) {
                 <div ref={lineRef} className="absolute top-0 w-full h-full bg-accent-primary" />
             </div>
 
-            <div className="flex flex-col gap-12">
+            <ol className="flex flex-col gap-12 list-none p-0 m-0 relative z-10">
                 {roadmap.steps.map((step, index) => {
                     const isEven = index % 2 === 0;
 
                     return (
-                        <div
+                        <li
                             key={step.id}
                             className={`timeline-node relative flex items-start md:items-center w-full ${isEven ? "md:flex-row-reverse" : "md:flex-row"
                                 }`}
@@ -95,10 +96,10 @@ export default function RoadmapTimeline({ roadmap }: RoadmapTimelineProps) {
                                     <div className="flex items-center justify-between mb-3">
                                         <span
                                             className={`text-xs font-semibold tracking-wider uppercase px-2 py-1 rounded-md ${step.status === "beginner"
-                                                    ? "text-emerald-400 bg-emerald-400/10"
-                                                    : step.status === "intermediate"
-                                                        ? "text-amber-400 bg-amber-400/10"
-                                                        : "text-rose-400 bg-rose-400/10"
+                                                ? "text-emerald-400 bg-emerald-400/10"
+                                                : step.status === "intermediate"
+                                                    ? "text-amber-400 bg-amber-400/10"
+                                                    : "text-rose-400 bg-rose-400/10"
                                                 }`}
                                         >
                                             {step.status}
@@ -158,10 +159,10 @@ export default function RoadmapTimeline({ roadmap }: RoadmapTimelineProps) {
                                     )}
                                 </div>
                             </div>
-                        </div>
+                        </li>
                     );
                 })}
-            </div>
+            </ol>
         </div>
     );
 }

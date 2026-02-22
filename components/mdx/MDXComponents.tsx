@@ -2,16 +2,17 @@ import Link from "next/link";
 import CodeBlock from "./CodeBlock";
 import Callout from "./Callout";
 import { slugify } from "@/lib/utils";
+import type { HTMLAttributes, AnchorHTMLAttributes, ImgHTMLAttributes } from "react";
 
 export const mdxComponents = {
     // Custom components
     Callout,
 
     // Override standard HTML elements
-    h1: (props: any) => (
+    h1: (props: HTMLAttributes<HTMLHeadingElement>) => (
         <h1 className="text-3xl md:text-4xl font-bold mt-8 mb-4 tracking-tight" {...props} />
     ),
-    h2: (props: any) => {
+    h2: (props: HTMLAttributes<HTMLHeadingElement>) => {
         const id = typeof props.children === "string" ? slugify(props.children) : undefined;
         return (
             <h2
@@ -30,7 +31,7 @@ export const mdxComponents = {
             </h2>
         );
     },
-    h3: (props: any) => {
+    h3: (props: HTMLAttributes<HTMLHeadingElement>) => {
         const id = typeof props.children === "string" ? slugify(props.children) : undefined;
         return (
             <h3
@@ -40,10 +41,10 @@ export const mdxComponents = {
             />
         );
     },
-    p: (props: any) => (
+    p: (props: HTMLAttributes<HTMLParagraphElement>) => (
         <p className="leading-relaxed text-text-secondary mb-5" {...props} />
     ),
-    a: ({ href, ...props }: any) => {
+    a: ({ href, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) => {
         const isExternal = href?.startsWith("http");
         if (isExternal) {
             return (
@@ -58,36 +59,36 @@ export const mdxComponents = {
         }
         return (
             <Link
-                href={href}
+                href={href || ""}
                 className="text-accent-primary underline underline-offset-4 decoration-accent-primary/30 hover:decoration-accent-primary transition-all"
                 {...props}
             />
         );
     },
-    ul: (props: any) => (
+    ul: (props: HTMLAttributes<HTMLUListElement>) => (
         <ul className="list-disc leading-relaxed pl-5 mb-5 space-y-2 text-text-secondary marker:text-border-primary" {...props} />
     ),
-    ol: (props: any) => (
+    ol: (props: HTMLAttributes<HTMLOListElement>) => (
         <ol className="list-decimal leading-relaxed pl-5 mb-5 space-y-2 text-text-secondary marker:text-text-tertiary" {...props} />
     ),
-    li: (props: any) => <li {...props} />,
-    hr: (props: any) => <hr className="my-10 border-border-secondary" {...props} />,
-    blockquote: (props: any) => (
+    li: (props: HTMLAttributes<HTMLLIElement>) => <li {...props} />,
+    hr: (props: HTMLAttributes<HTMLHRElement>) => <hr className="my-10 border-border-secondary" {...props} />,
+    blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
         <blockquote
             className="border-l-4 border-accent-primary/50 bg-accent-primary/5 pl-5 py-3 pr-4 rounded-r-lg italic text-text-secondary my-6"
             {...props}
         />
     ),
     // Code handling
-    pre: (props: any) => {
+    pre: (props: HTMLAttributes<HTMLPreElement>) => {
         // next-mdx-remote passes the code string inside a <code> tag as children to <pre>
-        const codeElement = props.children;
+        const codeElement = props.children as React.ReactElement<{ className?: string, children?: React.ReactNode }>;
         const className = codeElement?.props?.className || "";
         const children = codeElement?.props?.children;
 
         return <CodeBlock className={className}>{children}</CodeBlock>;
     },
-    code: (props: any) => {
+    code: (props: HTMLAttributes<HTMLElement>) => {
         // Inline code blocks (not inside <pre>)
         return (
             <code
@@ -96,7 +97,7 @@ export const mdxComponents = {
             />
         );
     },
-    img: (props: any) => (
+    img: (props: ImgHTMLAttributes<HTMLImageElement>) => (
         // eslint-disable-next-line @next/next/no-img-element
         <img
             className="rounded-xl border border-border-secondary mx-auto block my-8"

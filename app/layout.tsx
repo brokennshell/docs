@@ -23,8 +23,10 @@ export const metadata: Metadata = {
   },
   description:
     "Open-source educational platform with markdown-based roadmaps and developer notes.",
-  metadataBase: new URL("https://docs.brokenshell.dev"),
+  metadataBase: new URL("https://docs.brokennshell.com"),
 };
+
+import GsapProvider from "@/components/GsapProvider";
 
 export default function RootLayout({
   children,
@@ -34,9 +36,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-dvh bg-bg-primary text-text-primary font-sans antialiased">
-        <Header />
-        <main className="pt-16">{children}</main>
-        <Footer />
+        <GsapProvider>
+          <Header />
+          <main className="pt-16">{children}</main>
+          <Footer />
+        </GsapProvider>
       </body>
     </html>
   );

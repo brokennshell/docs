@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import DomainCard from "@/components/DomainCard";
 import type { Domain } from "@/types";
 
@@ -13,9 +14,7 @@ export default function DomainGrid({ domains }: DomainGridProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const headingRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (!headingRef.current) return;
-
+    useGSAP(() => {
         gsap.fromTo(
             headingRef.current,
             { opacity: 0, y: 20 },
@@ -30,7 +29,7 @@ export default function DomainGrid({ domains }: DomainGridProps) {
                 },
             }
         );
-    }, []);
+    }, { scope: sectionRef });
 
     return (
         <section ref={sectionRef} id="domains" className="py-24">
@@ -45,11 +44,13 @@ export default function DomainGrid({ domains }: DomainGridProps) {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 list-none p-0">
                     {domains.map((domain, index) => (
-                        <DomainCard key={domain.id} domain={domain} index={index} />
+                        <li key={domain.id}>
+                            <DomainCard domain={domain} index={index} />
+                        </li>
                     ))}
-                </div>
+                </ul>
             </div>
         </section>
     );

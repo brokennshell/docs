@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import type { Domain } from "@/types";
 
 interface DomainCardProps {
@@ -13,9 +14,7 @@ interface DomainCardProps {
 export default function DomainCard({ domain, index }: DomainCardProps) {
     const cardRef = useRef<HTMLAnchorElement>(null);
 
-    useEffect(() => {
-        if (!cardRef.current) return;
-
+    useGSAP(() => {
         gsap.fromTo(
             cardRef.current,
             { opacity: 0, y: 30 },
@@ -27,7 +26,7 @@ export default function DomainCard({ domain, index }: DomainCardProps) {
                 ease: "power3.out",
             }
         );
-    }, [index]);
+    }, { scope: cardRef, dependencies: [index] });
 
     return (
         <Link

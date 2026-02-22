@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import type { Domain } from "@/types";
 
 interface DomainHeaderProps {
@@ -15,9 +16,7 @@ export default function DomainHeader({ domain }: DomainHeaderProps) {
     const descRef = useRef<HTMLParagraphElement>(null);
     const statsRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (!headerRef.current) return;
-
+    useGSAP(() => {
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
         tl.fromTo(
@@ -43,7 +42,7 @@ export default function DomainHeader({ domain }: DomainHeaderProps) {
                 { opacity: 1, y: 0, duration: 0.4 },
                 "-=0.2"
             );
-    }, []);
+    }, { scope: headerRef });
 
     return (
         <div

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { SITE_CONFIG } from "@/lib/constants";
 
 const footerLinks = [
@@ -30,22 +31,13 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <div>
                         <Link href="/" className="flex items-center gap-2.5 mb-3">
-                            <div className="w-7 h-7 rounded-md bg-accent-primary/10 border border-accent-primary/20 flex items-center justify-center">
-                                <svg
-                                    width="14"
-                                    height="14"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="text-accent-primary"
-                                >
-                                    <polyline points="16 18 22 12 16 6" />
-                                    <polyline points="8 6 2 12 8 18" />
-                                </svg>
-                            </div>
+                            <Image
+                                src="/brokenn-shell.svg"
+                                alt={`${SITE_CONFIG.name} Logo`}
+                                width={28}
+                                height={28}
+                                className="rounded-md"
+                            />
                             <span className="text-sm font-semibold text-text-primary">
                                 {SITE_CONFIG.name}
                             </span>

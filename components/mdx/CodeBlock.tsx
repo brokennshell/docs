@@ -20,30 +20,22 @@ export default async function CodeBlock({
         code = children.join("");
     } else if (children && typeof children === "object" && "props" in children) {
         // Sometimes next-mdx passes a single child object
-        code = (children as any).props?.children || "";
+        code = String((children as { props?: { children?: unknown } }).props?.children || "");
     }
 
     code = code.trimEnd();
 
+    let html = "";
     try {
-        const html = await codeToHtml(code, {
-            lang: language as any,
+        html = await codeToHtml(code, {
+            lang: language,
             theme: "vitesse-dark",
         });
+    } catch {
+        // Fallback or ignore
+    }
 
-        return (
-            <div className="relative group my-6">
-                <div className="absolute right-12 top-3 px-2 py-1 text-xs font-mono font-medium rounded bg-bg-tertiary/50 text-text-tertiary border border-border-secondary uppercase z-10 select-none">
-                    {language}
-                </div>
-                <CopyButton code={code} />
-                <div
-                    className="shiki-container text-[13px] md:text-sm [&>pre]:!bg-[#0a0a0f] [&>pre]:!p-5 [&>pre]:rounded-xl [&>pre]:border [&>pre]:border-border-secondary [&>pre]:shadow-sm [&>pre]:overflow-x-auto"
-                    dangerouslySetInnerHTML={{ __html: html }}
-                />
-            </div>
-        );
-    } catch (e) {
+    if (!html) {
         return (
             <div className="relative group my-6">
                 <CopyButton code={code} />
@@ -53,4 +45,17 @@ export default async function CodeBlock({
             </div>
         );
     }
+
+    return (
+        <div className="relative group my-6">
+            <div className="absolute right-12 top-3 px-2 py-1 text-xs font-mono font-medium rounded bg-bg-tertiary/50 text-text-tertiary border border-border-secondary uppercase z-10 select-none">
+                {language}
+            </div>
+            <CopyButton code={code} />
+            <div
+                className="shiki-container text-[13px] md:text-sm [&>pre]:!bg-[#0a0a0f] [&>pre]:!p-5 [&>pre]:rounded-xl [&>pre]:border [&>pre]:border-border-secondary [&>pre]:shadow-sm [&>pre]:overflow-x-auto"
+                dangerouslySetInnerHTML={{ __html: html }}
+            />
+        </div>
+    );
 }

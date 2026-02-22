@@ -13,8 +13,8 @@ export default function NotesSidebar({ domainSlug, items }: NotesSidebarProps) {
     const pathname = usePathname();
 
     return (
-        <aside className="w-full lg:w-64 shrink-0 py-8 lg:pr-8">
-            <nav className="space-y-8 sticky top-28">
+        <aside className="w-full lg:w-64 shrink-0 py-6 lg:py-8 lg:pr-8 border-b border-border-secondary lg:border-none mb-8 lg:mb-0">
+            <nav className="space-y-6 lg:space-y-8 lg:sticky lg:top-28">
                 {items.map((group) => (
                     <div key={group.topic.id}>
                         <h4 className="text-xs font-bold text-text-primary uppercase tracking-wider mb-3">

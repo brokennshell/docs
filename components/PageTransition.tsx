@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 interface PageTransitionProps {
     children: React.ReactNode;
@@ -14,9 +15,7 @@ export default function PageTransition({
 }: PageTransitionProps) {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (!containerRef.current) return;
-
+    useGSAP(() => {
         gsap.fromTo(
             containerRef.current,
             { opacity: 0, y: 12 },
@@ -28,7 +27,7 @@ export default function PageTransition({
                 delay: 0.1,
             }
         );
-    }, []);
+    }, { scope: containerRef });
 
     return (
         <div ref={containerRef} className={`opacity-0 ${className}`}>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import RoadmapTimeline from "@/components/RoadmapTimeline";
 import type { Roadmap, NoteSidebarItem } from "@/types";
@@ -18,15 +19,13 @@ export default function DomainTabs({ domainSlug, roadmap, notes }: DomainTabsPro
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Animate the active tab indicator
-    useEffect(() => {
-        if (!indicatorRef.current) return;
-
+    useGSAP(() => {
         gsap.to(indicatorRef.current, {
             x: activeTab === "roadmaps" ? 0 : "100%",
             duration: 0.3,
             ease: "power2.out",
         });
-    }, [activeTab]);
+    }, { dependencies: [activeTab] });
 
     // Handle content fade out/in when switching tabs
     const handleTabChange = (tab: "roadmaps" | "notes") => {
