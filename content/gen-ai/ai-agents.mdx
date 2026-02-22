@@ -1,0 +1,63 @@
+---
+title: "AI Agents"
+description: "Autonomous agents with tool use, memory, and reasoning."
+---
+
+# AI Agents
+
+AI agents extend LLMs with the ability to take actions, use tools, and reason through multi-step problems autonomously.
+
+## Agent Architecture
+
+```python
+from langchain.agents import create_tool_calling_agent
+from langchain.tools import tool
+
+@tool
+def search_database(query: str) -> str:
+    """Search the product database for items matching the query."""
+    results = db.search(query, limit=5)
+    return json.dumps(results)
+
+@tool
+def calculate_price(item_id: str, quantity: int) -> str:
+    """Calculate total price including tax for the given item and quantity."""
+    item = db.get_item(item_id)
+    total = item.price * quantity * 1.08  # 8% tax
+    return f"Total: ${total:.2f}"
+
+# Create agent with tools
+agent = create_tool_calling_agent(
+    llm=ChatOpenAI(model="gpt-4"),
+    tools=[search_database, calculate_price],
+    prompt=agent_prompt,
+)
+```
+
+## Memory Systems
+
+```python
+from langchain.memory import ConversationBufferWindowMemory
+
+memory = ConversationBufferWindowMemory(
+    k=10,  # Keep last 10 exchanges
+    return_messages=True,
+    memory_key="chat_history",
+)
+```
+
+## Multi-Step Reasoning
+
+Agents can break down complex tasks into sequential operations:
+
+1. **Observe** — Parse user request and available context
+2. **Think** — Plan the approach and identify required tools
+3. **Act** — Execute tool calls to gather information
+4. **Reflect** — Evaluate results and decide next steps
+
+## Summary
+
+- Tools extend LLM capabilities to interact with external systems
+- Memory enables context retention across conversations
+- ReAct pattern for structured multi-step reasoning
+- Always constrain agent scope to prevent unintended actions

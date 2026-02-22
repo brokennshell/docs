@@ -1,0 +1,88 @@
+---
+title: "CI/CD Pipelines"
+description: "GitHub Actions, Jenkins, and automated deployment workflows."
+---
+
+# CI/CD Pipelines
+
+Continuous Integration and Continuous Deployment automate testing and deployment, reducing human error and accelerating delivery.
+
+## GitHub Actions
+
+```yaml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test -- --coverage
+      - run: npm run build
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker Image
+        run: docker build -t myapp:${{ github.sha }} .
+
+      - name: Push to Registry
+        run: |
+          echo ${{ secrets.REGISTRY_TOKEN }} | docker login -u ${{ secrets.REGISTRY_USER }} --password-stdin
+          docker push myapp:${{ github.sha }}
+
+      - name: Deploy to Production
+        run: |
+          kubectl set image deployment/api api=myapp:${{ github.sha }}
+```
+
+## Pipeline Design Principles
+
+```
+┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐
+│  Lint  │──>│  Test  │──>│ Build  │──>│  Push  │──>│ Deploy │
+└────────┘   └────────┘   └────────┘   └────────┘   └────────┘
+   Fast ──────────────────────────────────────────────> Slow
+   Cheap ─────────────────────────────────────────────> Expensive
+```
+
+> Fail fast: run the cheapest checks (lint, type check) first. Only proceed to expensive steps (integration tests, builds) if early stages pass.
+
+## Environment Strategy
+
+```yaml
+environments:
+  staging:
+    trigger: push to develop
+    approval: automatic
+    url: staging.example.com
+
+  production:
+    trigger: push to main
+    approval: manual
+    url: example.com
+```
+
+## Summary
+
+- GitHub Actions for automated CI/CD workflows
+- Fail-fast pipeline design reduces feedback time
+- Docker-based deployments for reproducibility
+- Environment-based promotion with manual production gates

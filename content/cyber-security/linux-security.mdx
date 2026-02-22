@@ -1,0 +1,61 @@
+---
+title: "Linux Security"
+description: "File permissions, user management, firewalls, and hardening."
+---
+
+# Linux Security
+
+Linux system administration and hardening are core skills for any security professional.
+
+## File Permissions
+
+```bash
+# Permission structure: owner-group-others
+# rwxr-xr-- = 754
+chmod 754 script.sh
+
+# Change ownership
+chown www-data:www-data /var/www/html -R
+
+# Set SUID bit (runs as file owner)
+chmod u+s /usr/bin/program
+
+# Find SUID binaries (common privilege escalation vector)
+find / -perm -4000 -type f 2>/dev/null
+```
+
+## Firewall Configuration (iptables)
+
+```bash
+# Default deny incoming, allow outgoing
+iptables -P INPUT DROP
+iptables -P OUTPUT ACCEPT
+
+# Allow established connections
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# Allow SSH on port 22
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+# Rate limit connections (prevent brute force)
+iptables -A INPUT -p tcp --dport 22 -m limit \
+  --limit 3/min --limit-burst 3 -j ACCEPT
+```
+
+## SSH Hardening
+
+```bash
+# /etc/ssh/sshd_config
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+MaxAuthTries 3
+AllowUsers deploy admin
+```
+
+## Summary
+
+- Principle of least privilege for file permissions
+- Default-deny firewall policies
+- Disable root login and password authentication for SSH
+- Regular auditing of SUID binaries

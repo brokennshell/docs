@@ -1,0 +1,93 @@
+---
+title: "Python for Data Science"
+description: "NumPy, Pandas, Matplotlib, and data wrangling techniques."
+---
+
+# Python for Data Science
+
+Python's data science ecosystem provides powerful tools for data manipulation, analysis, and visualization.
+
+## NumPy Fundamentals
+
+NumPy is the foundation for numerical computing in Python.
+
+```python
+import numpy as np
+
+# Array creation and operations
+arr = np.array([1, 2, 3, 4, 5])
+matrix = np.zeros((3, 3))
+identity = np.eye(4)
+
+# Vectorized operations (no loops needed)
+result = arr * 2 + 1  # [3, 5, 7, 9, 11]
+
+# Broadcasting
+a = np.array([[1], [2], [3]])  # Shape: (3, 1)
+b = np.array([10, 20, 30])     # Shape: (3,)
+c = a + b  # Shape: (3, 3) via broadcasting
+
+# Statistical operations
+mean = np.mean(arr)
+std = np.std(arr)
+```
+
+## Pandas DataFrames
+
+Pandas provides high-level data structures for efficient data analysis.
+
+```python
+import pandas as pd
+
+# Create DataFrame
+df = pd.DataFrame({
+    "name": ["Alice", "Bob", "Charlie"],
+    "age": [25, 30, 35],
+    "salary": [70000, 85000, 95000],
+})
+
+# Filtering and selection
+senior = df[df["age"] > 28]
+high_earners = df.query("salary > 80000")
+
+# Aggregation
+stats = df.groupby("department").agg(
+    avg_salary=("salary", "mean"),
+    count=("name", "count"),
+).reset_index()
+
+# Method chaining
+result = (
+    df.dropna()
+    .assign(bonus=lambda x: x["salary"] * 0.1)
+    .sort_values("salary", ascending=False)
+    .head(10)
+)
+```
+
+## Data Visualization
+
+```python
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+
+# Line plot
+axes[0].plot(x_data, y_data, color="#6c6cf5", linewidth=2)
+axes[0].set_title("Training Loss")
+axes[0].set_xlabel("Epoch")
+
+# Bar chart
+axes[1].bar(categories, values, color="#8b5cf6")
+axes[1].set_title("Model Comparison")
+
+plt.tight_layout()
+plt.savefig("analysis.png", dpi=150)
+```
+
+## Summary
+
+- NumPy for vectorized numerical operations
+- Pandas for structured data manipulation and analysis
+- Matplotlib for publication-quality visualizations
+- Method chaining for readable data pipelines

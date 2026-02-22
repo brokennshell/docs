@@ -1,0 +1,73 @@
+---
+title: "Flutter Development"
+description: "Dart language, widget tree, and state management with Riverpod."
+---
+
+# Flutter Development
+
+Flutter delivers native performance on iOS and Android from a single Dart codebase.
+
+## Widget Fundamentals
+
+Everything in Flutter is a widget. Composition over inheritance is the core principle.
+
+```dart
+class ProfileCard extends StatelessWidget {
+  final String name;
+  final String role;
+
+  const ProfileCard({
+    required this.name,
+    required this.role,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1a1a2e),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFF2a2a3e)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(name, style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 4),
+          Text(role, style: Theme.of(context).textTheme.bodySmall),
+        ],
+      ),
+    );
+  }
+}
+```
+
+## State Management with Riverpod
+
+```dart
+final userProvider = FutureProvider<User>((ref) async {
+  final repository = ref.watch(userRepositoryProvider);
+  return repository.fetchCurrentUser();
+});
+
+class ProfileScreen extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userAsync = ref.watch(userProvider);
+
+    return userAsync.when(
+      data: (user) => ProfileCard(name: user.name, role: user.role),
+      loading: () => const CircularProgressIndicator(),
+      error: (err, stack) => Text("Error: $err"),
+    );
+  }
+}
+```
+
+## Summary
+
+- Stateless widgets for pure UI, stateful for local state
+- Riverpod for scalable, testable state management
+- Composition-based widget architecture

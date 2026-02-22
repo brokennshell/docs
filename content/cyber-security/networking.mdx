@@ -1,0 +1,74 @@
+---
+title: "Networking Fundamentals"
+description: "TCP/IP, DNS, HTTP protocols, and packet analysis basics."
+---
+
+# Networking Fundamentals
+
+Understanding network protocols is the foundation of cyber security. Every attack and defense depends on how data moves across networks.
+
+## TCP/IP Stack
+
+The four-layer model governs all internet communication:
+
+```
+┌─────────────────────────┐
+│   Application Layer     │  HTTP, DNS, SSH, FTP
+├─────────────────────────┤
+│    Transport Layer      │  TCP, UDP
+├─────────────────────────┤
+│     Network Layer       │  IP, ICMP, ARP
+├─────────────────────────┤
+│    Link/Physical        │  Ethernet, Wi-Fi
+└─────────────────────────┘
+```
+
+## DNS Resolution
+
+```bash
+# Query DNS records
+dig example.com A
+dig example.com MX
+dig example.com TXT
+
+# Trace the full resolution path
+dig +trace example.com
+
+# Reverse DNS lookup
+dig -x 93.184.216.34
+```
+
+## Packet Analysis with tcpdump
+
+```bash
+# Capture HTTP traffic on port 80
+sudo tcpdump -i eth0 port 80 -w capture.pcap
+
+# Read capture file with filters
+tcpdump -r capture.pcap -A 'tcp[tcpflags] & tcp-syn != 0'
+
+# Monitor DNS queries
+sudo tcpdump -i any port 53 -l
+```
+
+## HTTP Protocol
+
+```bash
+# Inspect HTTP headers
+curl -I https://example.com
+
+# Full request/response trace
+curl -v https://example.com 2>&1
+
+# Send POST with JSON body
+curl -X POST https://api.example.com/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "test"}'
+```
+
+## Summary
+
+- TCP/IP four-layer model is the foundation of networking
+- DNS translates domain names to IP addresses
+- tcpdump and Wireshark for packet-level analysis
+- Understanding HTTP is essential for web security testing

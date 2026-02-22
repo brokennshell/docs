@@ -1,0 +1,93 @@
+---
+title: "Docker Fundamentals"
+description: "Containers, images, Dockerfiles, and multi-stage builds."
+---
+
+# Docker Fundamentals
+
+Docker containerizes applications for consistent deployment across environments. This note covers the essentials for production use.
+
+## Dockerfile Best Practices
+
+```dockerfile
+# Multi-stage build for minimal production image
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+RUN addgroup --system --gid 1001 app && \
+    adduser --system --uid 1001 app
+
+COPY --from=builder --chown=app:app /app/dist ./dist
+COPY --from=builder --chown=app:app /app/node_modules ./node_modules
+COPY --from=builder --chown=app:app /app/package.json ./
+
+USER app
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+```
+
+## Docker Compose
+
+```yaml
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://user:pass@db:5432/mydb
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: mydb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+```
+
+## Essential Commands
+
+```bash
+# Build and tag
+docker build -t myapp:1.0 .
+
+# Run with port mapping and env vars
+docker run -d -p 3000:3000 --name api myapp:1.0
+
+# View logs
+docker logs -f api
+
+# Execute command in running container
+docker exec -it api sh
+
+# Cleanup unused resources
+docker system prune -af
+```
+
+## Summary
+
+- Multi-stage builds for minimal production images
+- Docker Compose for multi-service local development
+- Health checks for service dependency ordering
+- Non-root users in containers for security

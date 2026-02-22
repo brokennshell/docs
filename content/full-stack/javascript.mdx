@@ -1,0 +1,120 @@
+---
+title: "JavaScript Deep Dive"
+description: "Closures, prototypes, async/await, and modern JS patterns."
+---
+
+# JavaScript Deep Dive
+
+JavaScript is the backbone of web development. This note covers the critical concepts that separate beginners from proficient developers.
+
+## Closures
+
+A closure is a function that retains access to its lexical scope even when executed outside that scope.
+
+```javascript
+function createCounter(initialValue = 0) {
+  let count = initialValue;
+
+  return {
+    increment: () => ++count,
+    decrement: () => --count,
+    getCount: () => count,
+  };
+}
+
+const counter = createCounter(10);
+counter.increment(); // 11
+counter.increment(); // 12
+counter.getCount();  // 12
+```
+
+Closures power module patterns, data privacy, and callback retention.
+
+## Prototypal Inheritance
+
+Every JavaScript object has a prototype chain. Understanding it is essential for working with the language at a deeper level.
+
+```javascript
+class EventEmitter {
+  constructor() {
+    this.listeners = new Map();
+  }
+
+  on(event, callback) {
+    if (!this.listeners.has(event)) {
+      this.listeners.set(event, []);
+    }
+    this.listeners.get(event).push(callback);
+    return this;
+  }
+
+  emit(event, ...args) {
+    const callbacks = this.listeners.get(event) ?? [];
+    callbacks.forEach((cb) => cb(...args));
+  }
+}
+```
+
+## Async/Await
+
+Async/await simplifies asynchronous code by eliminating callback nesting and `.then()` chains.
+
+```javascript
+async function fetchUserData(userId) {
+  try {
+    const response = await fetch(`/api/users/${userId}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const user = await response.json();
+    return user;
+  } catch (error) {
+    console.error("Failed to fetch user:", error.message);
+    throw error;
+  }
+}
+
+// Parallel execution with Promise.all
+async function loadDashboard(userId) {
+  const [user, posts, notifications] = await Promise.all([
+    fetchUserData(userId),
+    fetchUserPosts(userId),
+    fetchNotifications(userId),
+  ]);
+
+  return { user, posts, notifications };
+}
+```
+
+## Destructuring & Spread
+
+Modern patterns for cleaner, more expressive code:
+
+```javascript
+const config = {
+  host: "localhost",
+  port: 3000,
+  database: { name: "mydb", pool: 5 },
+};
+
+const {
+  host,
+  port,
+  database: { name: dbName },
+} = config;
+
+const updatedConfig = {
+  ...config,
+  port: 8080,
+  database: { ...config.database, pool: 10 },
+};
+```
+
+## Summary
+
+- Closures enable data privacy and state encapsulation
+- Prototypal inheritance is the foundation of JS objects
+- Async/await with `Promise.all` for parallel async operations
+- Destructuring and spread for immutable data patterns

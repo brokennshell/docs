@@ -1,0 +1,107 @@
+---
+title: "Kubernetes Essentials"
+description: "Pods, services, deployments, and cluster orchestration."
+---
+
+# Kubernetes Essentials
+
+Kubernetes orchestrates containerized workloads at scale with declarative configuration and self-healing capabilities.
+
+## Pod & Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-server
+  labels:
+    app: api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: myregistry/api:1.2.0
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+```
+
+## Service & Ingress
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  selector:
+    app: api
+  ports:
+    - port: 80
+      targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+    - host: api.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-service
+                port:
+                  number: 80
+```
+
+## Essential kubectl Commands
+
+```bash
+# View cluster state
+kubectl get pods -o wide
+kubectl describe pod api-server-xxx
+
+# Scale deployment
+kubectl scale deployment api-server --replicas=5
+
+# Rolling update
+kubectl set image deployment/api-server api=myregistry/api:1.3.0
+
+# View logs
+kubectl logs -f deployment/api-server
+```
+
+## Summary
+
+- Deployments manage Pod replicas with rolling updates
+- Services provide stable networking within the cluster
+- Ingress routes external HTTP traffic to services
+- Resource limits prevent runaway containers

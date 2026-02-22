@@ -1,0 +1,111 @@
+---
+title: "HTML & CSS Fundamentals"
+description: "Semantic HTML, modern CSS layouts, and responsive design patterns."
+---
+
+# HTML & CSS Fundamentals
+
+Modern web development starts with a solid understanding of HTML semantics and CSS layout systems. This guide covers the essential patterns you need to build accessible, responsive interfaces.
+
+## Semantic HTML
+
+Semantic elements give meaning to your content structure. Search engines and assistive technologies rely on these elements to understand page hierarchy.
+
+```html
+<header>
+  <nav aria-label="Main navigation">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <article>
+    <h1>Understanding Semantic HTML</h1>
+    <section>
+      <h2>Why It Matters</h2>
+      <p>Semantic markup improves accessibility, SEO, and code maintainability.</p>
+    </section>
+  </article>
+</main>
+
+<footer>
+  <p>&copy; 2025 All rights reserved.</p>
+</footer>
+```
+
+Key semantic elements to use consistently:
+
+- `<header>` — Introductory content or navigation
+- `<nav>` — Navigation links
+- `<main>` — Primary page content (one per page)
+- `<article>` — Self-contained composition
+- `<section>` — Thematic grouping with a heading
+- `<aside>` — Tangentially related content
+
+## CSS Flexbox
+
+Flexbox handles one-dimensional layouts efficiently. Use it for aligning items along a single axis.
+
+```css
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item {
+  flex: 1 1 auto;
+  min-width: 0; /* Prevents overflow in flex children */
+}
+```
+
+## CSS Grid
+
+Grid is designed for two-dimensional layouts. It excels at creating complex page structures.
+
+```css
+.layout {
+  display: grid;
+  grid-template-columns: 250px 1fr 200px;
+  grid-template-rows: auto 1fr auto;
+  gap: 1.5rem;
+  min-height: 100vh;
+}
+
+.sidebar { grid-column: 1; }
+.content { grid-column: 2; }
+.toc     { grid-column: 3; }
+```
+
+## Responsive Design
+
+Use a mobile-first approach with `min-width` media queries:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+```
+
+> Always test layouts at 320px, 768px, and 1280px breakpoints as a minimum.
+
+## Summary
+
+- Use semantic HTML for accessibility and SEO
+- Flexbox for one-dimensional alignment
+- CSS Grid for two-dimensional layouts
+- Mobile-first responsive design with `min-width` queries
