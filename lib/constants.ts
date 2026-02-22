@@ -1,10 +1,10 @@
 export const SITE_CONFIG = {
-    name: "Broken Shell Docs",
+    name: "BrokenN Shell Docs",
     description:
         "Open-source educational platform with markdown-based roadmaps and developer notes.",
     url: "https://docs.brokenshell.dev",
     github: "https://github.com/brokenshell/docs",
-    author: "Broken Shell",
+    author: "BrokenN Shell",
 } as const;
 
 export const NAV_LINKS = [

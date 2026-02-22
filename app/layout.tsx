@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,8 +18,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Broken Shell Docs",
-    template: "%s — Broken Shell Docs",
+    default: "BrokenN Shell Docs",
+    template: "%s — BrokenN Shell Docs",
   },
   description:
     "Open-source educational platform with markdown-based roadmaps and developer notes.",
@@ -32,7 +34,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="min-h-dvh bg-bg-primary text-text-primary font-sans antialiased">
-        {children}
+        <Header />
+        <main className="pt-16">{children}</main>
+        <Footer />
       </body>
     </html>
   );
