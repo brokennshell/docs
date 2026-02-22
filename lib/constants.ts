@@ -1,0 +1,26 @@
+export const SITE_CONFIG = {
+    name: "Broken Shell Docs",
+    description:
+        "Open-source educational platform with markdown-based roadmaps and developer notes.",
+    url: "https://docs.brokenshell.dev",
+    github: "https://github.com/brokenshell/docs",
+    author: "Broken Shell",
+} as const;
+
+export const NAV_LINKS = [
+    { label: "Home", href: "/" },
+    { label: "Domains", href: "/#domains" },
+    { label: "GitHub", href: SITE_CONFIG.github, external: true },
+] as const;
+
+export const DOMAIN_COLORS: Record<string, string> = {
+    "full-stack": "var(--color-tag-fullstack)",
+    "ai-ml": "var(--color-tag-aiml)",
+    "app-dev": "var(--color-tag-appdev)",
+    "cyber-security": "var(--color-tag-cybersec)",
+    "gen-ai": "var(--color-tag-genai)",
+    devops: "var(--color-tag-devops)",
+};
+
+export const GITHUB_CONTENT_BASE =
+    "https://github.com/brokenshell/docs/edit/main/content";
