@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export type Lang = "en" | "hi";
 
 export interface TranslatableString {
@@ -10,7 +12,7 @@ export interface Domain {
   title: string;
   slug: string;
   description: string;
-  icon: string;
+  icon: ReactNode;
   color: string;
   tagColor: string;
   roadmapCount: number;
