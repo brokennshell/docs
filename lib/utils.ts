@@ -49,3 +49,45 @@ export function extractHeadings(
 
     return headings;
 }
+
+export function extractModules(
+    content: string
+): { id: string; title: string; parts: { id: string; title: string }[] }[] {
+    const modules: { id: string; title: string; parts: { id: string; title: string }[] }[] = [];
+
+    // Split content by module-container blocks
+    const moduleRegex = /<div\s+className="module-container">[\s\S]*?<details\s+className="major-dropdown"[^>]*>\s*<summary><strong>(.+?)<\/strong><\/summary>/g;
+    let moduleMatch;
+    let moduleIndex = 0;
+
+    while ((moduleMatch = moduleRegex.exec(content)) !== null) {
+        const moduleTitle = moduleMatch[1];
+        const moduleId = `module-${moduleIndex}`;
+
+        // Find the end of this module (next module-container or end of content)
+        const moduleStart = moduleMatch.index;
+        const nextModuleStart = content.indexOf('<div className="module-container">', moduleStart + 1);
+        const moduleContent = nextModuleStart !== -1
+            ? content.substring(moduleStart, nextModuleStart)
+            : content.substring(moduleStart);
+
+        // Extract sub-dropdown parts within this module
+        const partRegex = /<details\s+className="sub-dropdown"[^>]*>\s*<summary>(.+?)<\/summary>/g;
+        const parts: { id: string; title: string }[] = [];
+        let partMatch;
+        let partIndex = 0;
+
+        while ((partMatch = partRegex.exec(moduleContent)) !== null) {
+            parts.push({
+                id: `${moduleId}-part-${partIndex}`,
+                title: partMatch[1],
+            });
+            partIndex++;
+        }
+
+        modules.push({ id: moduleId, title: moduleTitle, parts });
+        moduleIndex++;
+    }
+
+    return modules;
+}

@@ -80,3 +80,14 @@ export interface SearchResult {
   domainSlug: string;
   domainTitle: string;
 }
+
+export interface ModulePart {
+  id: string;
+  title: string;
+}
+
+export interface ModuleInfo {
+  id: string;
+  title: string;
+  parts: ModulePart[];
+}
