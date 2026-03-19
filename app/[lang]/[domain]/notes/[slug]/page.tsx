@@ -11,6 +11,7 @@ import {
 } from "@/lib/data";
 import NotesSidebar from "@/components/NotesSidebar";
 import NotesTOC from "@/components/NotesTOC";
+import ModuleSidebar from "@/components/ModuleSidebar";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import GithubEditLink from "@/components/GithubEditLink";
 import PageTransition from "@/components/PageTransition";
@@ -96,7 +97,11 @@ export default async function NotePage({ params }: PageProps) {
                         <GithubEditLink domainSlug={domainSlug} noteSlug={noteSlug} lang={currentLang} />
                     </main>
 
-                    <NotesTOC headings={mdxData.headings} />
+                    {mdxData.modules.length > 0 ? (
+                        <ModuleSidebar modules={mdxData.modules} />
+                    ) : (
+                        <NotesTOC headings={mdxData.headings} />
+                    )}
                 </div>
             </div>
         </PageTransition>
