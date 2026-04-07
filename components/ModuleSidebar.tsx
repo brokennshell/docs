@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
 import type { ModuleInfo } from "@/types";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface ModuleSidebarProps {
     modules: ModuleInfo[];
@@ -91,11 +91,10 @@ export default function ModuleSidebar({ modules }: ModuleSidebarProps) {
                             <div key={mod.id}>
                                 <button
                                     onClick={() => scrollToElement(mod.id)}
-                                    className={`w-full text-left text-sm py-1.5 px-2 rounded-md transition-colors ${
-                                        isActive
+                                    className={`w-full text-left text-sm py-1.5 px-2 rounded-md transition-colors ${isActive
                                             ? "text-accent-primary font-medium bg-accent-primary/5"
                                             : "text-text-tertiary hover:text-text-secondary"
-                                    }`}
+                                        }`}
                                 >
                                     {mod.title}
                                 </button>

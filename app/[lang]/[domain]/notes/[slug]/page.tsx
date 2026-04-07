@@ -1,21 +1,21 @@
-import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { mdxComponents } from "@/components/mdx/MDXComponents";
-import { getNoteContent } from "@/lib/mdx";
-import {
-    getDomainBySlug,
-    getNotesByDomain,
-    getTopicsByDomain,
-    getNoteBySlug,
-    getAllDomainSlugs,
-} from "@/lib/data";
-import NotesSidebar from "@/components/NotesSidebar";
-import NotesTOC from "@/components/NotesTOC";
-import ModuleSidebar from "@/components/ModuleSidebar";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import GithubEditLink from "@/components/GithubEditLink";
+import { mdxComponents } from "@/components/mdx/MDXComponents";
+import ModuleSidebar from "@/components/ModuleSidebar";
+import NotesSidebar from "@/components/NotesSidebar";
+import NotesTOC from "@/components/NotesTOC";
 import PageTransition from "@/components/PageTransition";
+import {
+    getAllDomainSlugs,
+    getDomainBySlug,
+    getNoteBySlug,
+    getNotesByDomain,
+    getTopicsByDomain,
+} from "@/lib/data";
+import { getNoteContent } from "@/lib/mdx";
 import type { NoteSidebarItem } from "@/types";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { notFound } from "next/navigation";
 
 interface PageProps {
     params: Promise<{
