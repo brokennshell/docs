@@ -84,6 +84,7 @@ export interface SearchResult {
 export interface ModulePart {
   id: string;
   title: string;
+  content: string;
 }
 
 export interface ModuleInfo {

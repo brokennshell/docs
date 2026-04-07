@@ -10,8 +10,9 @@ export interface MDXNote {
     frontmatter: Record<string, string>;
     readingTime: number;
     headings: { id: string; title: string; level: number }[];
-    modules: { id: string; title: string; parts: { id: string; title: string }[] }[];
+    modules: { id: string; title: string; parts: { id: string; title: string; content: string }[] }[];
 }
+
 
 export async function getNoteContent(
     domainSlug: string,

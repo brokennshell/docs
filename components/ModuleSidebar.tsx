@@ -1,123 +1,102 @@
 "use client";
 
 import type { ModuleInfo } from "@/types";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 
 interface ModuleSidebarProps {
     modules: ModuleInfo[];
+    activePartId: string;
+    onSelectPart: (id: string) => void;
 }
 
-export default function ModuleSidebar({ modules }: ModuleSidebarProps) {
-    const [activeModuleId, setActiveModuleId] = useState<string>(modules[0]?.id ?? "");
-    const observerRef = useRef<IntersectionObserver | null>(null);
-    const moduleVisibility = useRef<Map<string, number>>(new Map());
+export default function ModuleSidebar({ modules, activePartId, onSelectPart }: ModuleSidebarProps) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const moduleIndicatorRef = useRef<HTMLDivElement>(null);
 
-    const updateActiveModule = useCallback(() => {
-        let maxRatio = 0;
-        let activeId = "";
+    // Find current module index
+    const activeModuleIndex = modules.findIndex(m => m.parts.some(p => p.id === activePartId));
+    const activeModule = modules[activeModuleIndex] || modules[0];
 
-        moduleVisibility.current.forEach((ratio, id) => {
-            if (ratio > maxRatio) {
-                maxRatio = ratio;
-                activeId = id;
-            }
-        });
+    useGSAP(() => {
+        if (!containerRef.current || !moduleIndicatorRef.current) return;
 
-        if (activeId && maxRatio > 0) {
-            setActiveModuleId(activeId);
-        }
-    }, []);
-
-    useEffect(() => {
-        // Inject IDs into module-container elements
-        const moduleContainers = document.querySelectorAll(".module-container");
-        moduleContainers.forEach((container, index) => {
-            const moduleId = `module-${index}`;
-            container.id = moduleId;
-
-            // Inject IDs into sub-dropdown details within this container
-            const subDropdowns = container.querySelectorAll(".sub-dropdown");
-            subDropdowns.forEach((dropdown, partIndex) => {
-                dropdown.id = `${moduleId}-part-${partIndex}`;
+        // Animate module indicator (the underline/pill for the active module)
+        const activeModuleBtn = containerRef.current.querySelector(`.module-btn-${activeModuleIndex}`) as HTMLElement;
+        if (activeModuleBtn) {
+            gsap.to(moduleIndicatorRef.current, {
+                x: activeModuleBtn.offsetLeft,
+                width: activeModuleBtn.offsetWidth,
+                duration: 0.6,
+                ease: "expo.out"
             });
-        });
-
-        // Set up IntersectionObserver for module containers
-        observerRef.current = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    moduleVisibility.current.set(
-                        entry.target.id,
-                        entry.intersectionRatio
-                    );
-                });
-                updateActiveModule();
-            },
-            {
-                rootMargin: "-10% 0px -10% 0px",
-                threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
-            }
-        );
-
-        moduleContainers.forEach((container) => {
-            observerRef.current?.observe(container);
-        });
-
-        return () => {
-            observerRef.current?.disconnect();
-        };
-    }, [modules, updateActiveModule]);
-
-    const scrollToElement = (id: string) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth", block: "start" });
         }
-    };
+
+        // Entrance animation
+        gsap.fromTo(
+            containerRef.current.querySelectorAll(".anim-in"),
+            { opacity: 0, y: 5 },
+            { opacity: 1, y: 0, stagger: 0.05, duration: 0.4, ease: "power2.out" }
+        );
+    }, { dependencies: [activeModuleIndex], scope: containerRef });
 
     if (modules.length === 0) return null;
 
     return (
-        <aside className="hidden xl:block w-64 shrink-0 py-8 pl-8">
-            <div className="sticky top-28">
-                <h4 className="text-xs font-bold text-text-primary uppercase tracking-wider mb-4">
-                    Modules
-                </h4>
-                <nav className="space-y-1">
-                    {modules.map((mod) => {
-                        const isActive = activeModuleId === mod.id;
-
-                        return (
-                            <div key={mod.id}>
-                                <button
-                                    onClick={() => scrollToElement(mod.id)}
-                                    className={`w-full text-left text-sm py-1.5 px-2 rounded-md transition-colors ${isActive
-                                            ? "text-accent-primary font-medium bg-accent-primary/5"
-                                            : "text-text-tertiary hover:text-text-secondary"
-                                        }`}
-                                >
-                                    {mod.title}
-                                </button>
-
-                                {isActive && mod.parts.length > 0 && (
-                                    <ul className="ml-3 mt-1 mb-2 space-y-0.5 border-l border-border-secondary pl-3">
-                                        {mod.parts.map((part) => (
-                                            <li key={part.id}>
-                                                <button
-                                                    onClick={() => scrollToElement(part.id)}
-                                                    className="w-full text-left text-xs text-text-tertiary hover:text-text-secondary py-1 transition-colors"
-                                                >
-                                                    {part.title}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
-                        );
-                    })}
-                </nav>
+        <div ref={containerRef} className="w-full bg-bg-primary/40 backdrop-blur-xl border-y border-border-primary/30 sticky top-[64px] z-30 transition-all duration-300">
+            {/* Modules Navigation */}
+            <div className="relative flex items-center gap-1 py-0 border-b border-border-primary/10 overflow-x-auto no-scrollbar">
+                {/* Active Indicator Background */}
+                <div 
+                    ref={moduleIndicatorRef} 
+                    className="absolute bottom-0 h-0.5 bg-accent-primary shadow-[0_0_10px_rgba(var(--accent-rgb),0.5)] z-10" 
+                />
+                
+                {modules.map((mod, idx) => (
+                    <button
+                        key={mod.id}
+                        onClick={() => onSelectPart(mod.parts[0]?.id || mod.id)}
+                        className={`module-btn-${idx} anim-in relative px-5 ${idx === 0 ? "pl-0" : ""} py-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] whitespace-nowrap transition-colors duration-300 ${
+                            activeModule.id === mod.id ? "text-accent-primary" : "text-text-tertiary hover:text-text-secondary"
+                        }`}
+                    >
+                        {mod.title}
+                    </button>
+                ))}
             </div>
-        </aside>
+
+            {/* Parts Navigation (Sub-steps) */}
+            <div className="flex items-center gap-2 py-4 overflow-x-auto no-scrollbar scroll-smooth">
+                {activeModule.parts.map((part, idx) => {
+                    const isActive = activePartId === part.id;
+                    return (
+                        <button
+                            key={part.id}
+                            onClick={() => onSelectPart(part.id)}
+                            className={`anim-in px-4 py-2 text-xs font-medium rounded-xl border transition-all duration-500 whitespace-nowrap ${idx === 0 && !isActive ? "" : ""} ${
+                                isActive
+                                    ? "bg-accent-primary text-white border-accent-primary shadow-[0_8px_20px_-6px_rgba(var(--accent-rgb),0.4)] scale-[1.02]"
+                                    : "bg-bg-tertiary/20 text-text-tertiary border-border-primary/30 hover:border-border-primary/80 hover:text-text-secondary"
+                            }`}
+                        >
+                            {part.title}
+                        </button>
+                    );
+                })}
+            </div>
+
+            <style jsx>{`
+                .no-scrollbar::-webkit-scrollbar {
+                    display: none;
+                }
+                .no-scrollbar {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+            `}</style>
+        </div>
     );
 }
+
+
