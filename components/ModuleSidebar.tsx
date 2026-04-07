@@ -1,9 +1,12 @@
 "use client";
 
 import type { ModuleInfo } from "@/types";
+
 import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+
+
 
 interface ModuleSidebarProps {
     modules: ModuleInfo[];
@@ -44,6 +47,7 @@ export default function ModuleSidebar({ modules, activePartId, onSelectPart }: M
     if (modules.length === 0) return null;
 
     return (
+
         <div ref={containerRef} className="w-full bg-bg-primary/40 backdrop-blur-xl border-y border-border-primary/30 sticky top-[64px] z-30 transition-all duration-300">
             {/* Modules Navigation */}
             <div className="relative flex items-center gap-1 py-0 border-b border-border-primary/10 overflow-x-auto no-scrollbar">
@@ -64,6 +68,7 @@ export default function ModuleSidebar({ modules, activePartId, onSelectPart }: M
                         {mod.title}
                     </button>
                 ))}
+                  
             </div>
 
             {/* Parts Navigation (Sub-steps) */}
