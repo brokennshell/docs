@@ -55,13 +55,27 @@ export function extractModules(
 ): { id: string; title: string; parts: { id: string; title: string; content: string }[] }[] {
     const modules: { id: string; title: string; parts: { id: string; title: string; content: string }[] }[] = [];
 
+    const normalizeModuleTitle = (title: string, index: number): string => {
+        const trimmed = title.trim();
+        const moduleMatch = trimmed.match(/^MODULE\s*\d+\s*:\s*(.+)$/i);
+        if (moduleMatch?.[1]) {
+            return `Part ${index + 1}: ${moduleMatch[1].trim()}`;
+        }
+
+        if (/^module\s*\d+$/i.test(trimmed)) {
+            return `Part ${index + 1}`;
+        }
+
+        return trimmed;
+    };
+
     // 1. Try to extract modules using the special <div className="module-container"> structure
     const moduleRegex = /<div\s+className="module-container">[\s\S]*?<details\s+className="major-dropdown"[^>]*>\s*<summary><strong>(.+?)<\/strong><\/summary>/g;
     let moduleMatch;
     let moduleIndex = 0;
 
     while ((moduleMatch = moduleRegex.exec(content)) !== null) {
-        const moduleTitle = moduleMatch[1];
+        const moduleTitle = normalizeModuleTitle(moduleMatch[1], moduleIndex);
         const moduleId = `module-${moduleIndex}`;
         const moduleStart = moduleMatch.index;
         const nextModuleStart = content.indexOf('<div className="module-container">', moduleStart + 1);
@@ -96,7 +110,7 @@ export function extractModules(
         let h2Index = 0;
 
         while ((h2Match = h2Regex.exec(content)) !== null) {
-            const h2Title = h2Match[1];
+            const h2Title = normalizeModuleTitle(h2Match[1], h2Index);
             const moduleId = `h2-${h2Index}`;
             const h2Start = h2Match.index;
             // Find next H2 start
@@ -115,10 +129,10 @@ export function extractModules(
                 const h3Title = h3Match[1];
                 const h3Start = h3Match.index;
                 const nextH3Start = contentToSearchParts.indexOf('### ', h3Start + 1);
-                const partContent = nextH3Start !== -1 
-                    ? contentToSearchParts.substring(h3Start, nextH3Start) 
+                const partContent = nextH3Start !== -1
+                    ? contentToSearchParts.substring(h3Start, nextH3Start)
                     : contentToSearchParts.substring(h3Start);
-                
+
                 parts.push({
                     id: `${moduleId}-h3-${h3Index}`,
                     title: h3Title,
@@ -156,5 +170,3 @@ export function extractModules(
 
     return modules;
 }
-
-

@@ -276,7 +276,7 @@ If Keywords are the "Official Titles," **Identifiers** are the names *you* give 
 **✗ BAD (Junior Style):**
 
 ```python
-x = 10 
+x = 10
 Fn = "John" # Cryptic. Nobody knows what this is.
 ```
 
@@ -385,7 +385,7 @@ This is how your program talks to the world.
 
 - **`print()`:** Outputs data to the console.
     - *Pro Tip:* Use **f-strings** (formatted strings) for clean output.
-    
+
     ```python
     name = "Shakil"
     # Old Way (Ugly)
@@ -393,15 +393,15 @@ This is how your program talks to the world.
     # Modern Way (Clean)
     print(f"Hello {name}")
     ```
-    
+
 - **`input()`:** Takes data from the user.
     - **CRITICAL RULE:** `input()` **ALWAYS** returns a **STRING**. Even if you type a number.
-    
+
     ```python
     age = input("Enter age: ") # User types 25
     print(type(age)) # <class 'str'>
     ```
-    
+
     - You must wrap it in `int()` if you want to do math: `age = int(input("Enter age: "))`
 
 </details>
@@ -448,11 +448,11 @@ print(0.1 + 0.2)
 
 - **Why?** Because 0.1 is actually stored as 0.10000000000000000555... in memory.
 - **The Fix:** Never compare floats with `==`.
-    
+
     ```python
     # ✗ BAD
     if (0.1 + 0.2) == 0.3: # False!
-    
+
     # ✓ GOOD
     import math
     if math.isclose(0.1 + 0.2, 0.3): # True!
@@ -545,7 +545,7 @@ if isinstance(x, int):
 1. **Don't name variables `l`, `O`, or `I`**: They look like `1` and `0` in some fonts. Use `level`, `output`, `index`.
 2. **f-strings are faster**: `f"{var}"` is slightly faster than `var + " string"` and much more readable. Use them by default.
 3. **The `_` variable**: In the interactive shell (REPL), `_` stores the result of the last operation.
-    
+
     ```python
     >>> 5 + 5
     10
@@ -559,7 +559,7 @@ if isinstance(x, int):
     - You don't need to write `if my_list != []:`.
     - Python treats empty things (0, 0.0, "", [], None) as **False**.
     - Everything else is **True**.
-    
+
     ```python
     name = ""
     if name: # Checks if name is not empty
@@ -812,10 +812,10 @@ Who is the King? If you write `2 + 3 * 4`, what is the answer?
 **Senior Engineer Wisdom:**
 
 > "Don't memorize the table. Just use Parentheses `()`. It makes your code readable and bug-free.
-> 
-> 
+>
+>
 > `a + b * c` is correct but scary. `a + (b * c)` is clear and safe."
-> 
+>
 
 </details>
 
@@ -1050,17 +1050,17 @@ if error_occurred:
 A loop inside a loop.
 
 - **Analogy:** A Clock. The "Second Hand" (Inner Loop) spins 60 times for every 1 move of the "Minute Hand" (Outer Loop).
-    
+
     ```jsx
     adj = ["red", "big"]
     fruits = ["apple", "cherry"]
-    
+
     for a in adj:          # Outer Loop (Runs 2 times)
         for f in fruits:   # Inner Loop (Runs 2 times per Outer)
             print(a, f)
     # Total Prints: 2 * 2 = 4
     ```
-    
+
 
 #### 2. Time Complexity Intuition (Big O)
 
@@ -1084,29 +1084,29 @@ This is how we measure "Slowness."
 <summary>Senior Engineer Tips</summary>
 
 1. **Use `enumerate()`:** Stop manually counting indexes.Python
-    
+
     ```jsx
     # X BAD
     i = 0
     for item in items:
         print(i, item)
         i += 1
-    
+
     # ☑ GOOD
     for i, item in enumerate(items):
         print(i, item)
     ```
-    
+
 
 1. **`zip()` is Magic:** Loop through two lists at the same time.Python
-    
+
     ```jsx
     names = ["Alice", "Bob"]
     scores = [85, 90]
     for name, score in zip(names, scores):
         print(f"{name} got {score}")
     ```
-    
+
 </details>
 
 ---
@@ -1120,7 +1120,7 @@ This is how we measure "Slowness."
     - **Answer:** Because of **O(n^2)** Time Complexity. As data grows (millions of rows), nested loops become exponentially slower, making training take years instead of hours.
 3. **Scenario:** *How do you emulate a `do-while` loop in Python? (Python doesn't have one)*Python
     - **Answer:** Use a `while True` loop with a `break` condition at the end.
-    
+
     ```jsx
     while True:
         action()
@@ -1228,22 +1228,22 @@ greet("Rahul", "Hello") # Overrides default: "Hello, Rahul"
 Sometimes you don't know how many inputs you will get (e.g., calculating the average of 2 numbers... or 50 numbers).
 
 - **`args` (Arguments):** Collects extra positional arguments into a **Tuple**.Python
-    
+
     ```jsx
     def sum_all(*args):
         # args = (1, 2, 3, 4)
         return sum(args)
-    
+
     print(sum_all(1, 2, 3, 4)) # Output: 10
     ```
-    
+
 - **`*kwargs` (Keyword Arguments):** Collects extra keyword arguments into a **Dictionary**.Python
-    
+
     ```jsx
     def create_profile(**kwargs):
         # kwargs = {'name': 'Shakil', 'age': 30}
         print(kwargs['name'])
-    
+
     create_profile(name="Shakil", age=30)
     ```
 
@@ -1364,11 +1364,11 @@ Python ignores Type Hints, but **Humans** and **IDEs** (VS Code) love them. They
 def calculate_velocity(dist: float, time: float) -> float:
     """
     Calculates velocity based on distance and time.
-    
+
     Args:
         dist (float): Distance in meters.
         time (float): Time in seconds.
-        
+
     Returns:
         float: Velocity in m/s.
     """
@@ -1539,7 +1539,7 @@ text = "Contact support@google.com or sales@ai.net for help."
 pattern = r"[\w\.-]+@[\w\.-]+"
 
 emails = re.findall(pattern, text)
-print(emails) 
+print(emails)
 # Output: ['support@google.com', 'sales@ai.net']
 ```
 
@@ -1588,7 +1588,7 @@ A **List** is a **Smart Bookshelf** (Mutable).
 
 ```jsx
 # Empty List
-my_shelf = [] 
+my_shelf = []
 
 # Mixed Data (Python allows this!)
 data = [1, "Apple", 3.14, True]
@@ -1613,7 +1613,7 @@ This is where lists shine. You have full control.
 **Senior Engineer Tip (Performance):**
 
 > "Avoid `.insert(0, item)` inside a loop. Inserting at the start forces Python to move *every single item* in the list one step back. Use `.append()` and reverse the list later if needed."
-> 
+>
 
 ### 3. List Methods ( The Toolbelt)
 
@@ -1847,30 +1847,30 @@ acc, loss = get_model_metrics()
 - **Rule:** Lists **CANNOT** be keys in a dictionary (because they change).
 - **Rule:** Tuples **CAN** be keys (because they are constant).Python
     - *Use Case:* Using GPS coordinates as a key.
-    
+
     ```jsx
     locations = {
         (40.71, -74.00): "New York",
         (34.05, -118.24): "Los Angeles"
     }
     ```
-    
+
 
 ### Senior Engineer Tips
 
 1. **Named Tuples:**Python
     - Regular tuples are confusing: `user[0]`? What is index 0? Name? Age?
     - Use `collections.namedtuple` to give names to the slots.
-    
+
     ```jsx
     from collections import namedtuple
-    
+
     Point = namedtuple('Point', ['x', 'y'])
     p = Point(10, 20)
-    
+
     print(p.x) # Readable! Instead of p[0]
     ```
-    
+
 2. **Memory Optimization:**
     - If you have a massive dataset of static data (e.g., millions of X, Y points), store them as Tuples, not Lists. It saves RAM.
 
@@ -1915,8 +1915,8 @@ my_set = set()      # Correct
 # my_set = {}       # WRONG! This creates an empty Dictionary.
 
 # Populated Set
-colors = {"Red", "Green", "Blue", "Red"} 
-print(colors) 
+colors = {"Red", "Green", "Blue", "Red"}
+print(colors)
 # Output: {'Red', 'Green', 'Blue'} -> "Red" disappeared!
 ```
 
@@ -2143,7 +2143,7 @@ import json
 data = {"model": "GPT-4", "price": 0.03}
 
 # Convert Python Dict -> JSON String (Serialization)
-json_str = json.dumps(data) 
+json_str = json.dumps(data)
 
 # Convert JSON String -> Python Dict (Parsing)
 new_data = json.loads(json_str)
@@ -2168,7 +2168,7 @@ default_settings = {"theme": "light", "notifications": True}
 user_settings = {"theme": "dark"}
 
 # Overwrites 'theme', keeps 'notifications'
-config = default_settings | user_settings 
+config = default_settings | user_settings
 # Result: {'theme': 'dark', 'notifications': True}
 ```
 
@@ -2247,7 +2247,7 @@ class NeuralNetwork:
         self.layers = layers  # Instance Variable
 
 # As soon as this runs, __init__ fires.
-model = NeuralNetwork(5) 
+model = NeuralNetwork(5)
 # Output: Building Brain...
 ```
 
@@ -2362,7 +2362,7 @@ class Vector:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-    
+
     # The Magic for '+'
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y)
@@ -2550,35 +2550,35 @@ Before we fix bugs, we must name them.
 - **What:** You violated the rules of the Python language.
 - **When:** Detected **BEFORE** the code runs.
 - **Example:** Forgetting a colon `:`, checking equality with `=` instead of `==`.Python
-    
+
     ```jsx
     if x = 5  # SyntaxError: invalid syntax
     ```
-    
+
 
 ### 2. Runtime Errors (The Crash)
 
 - **What:** The grammar is perfect, but the *operation* is illegal.
 - **When:** Happens **WHILE** the code is running.
 - **Example:** Dividing by zero, opening a file that doesn't exist.Python
-    
+
     ```jsx
     print(10 / 0) # ZeroDivisionError (Crash!)
     ```
-    
+
 
 ### 3. Logical Errors (The Silent Killer)
 
 - **What:** The code runs perfectly. No crash. But the **result is wrong**.
 - **Why it’s dangerous:** You might lose millions of dollars before you realize the math is wrong.Python
-    
+
     ```jsx
     # Goal: Average of 2 and 4
-    avg = 2 + 4 / 2 
+    avg = 2 + 4 / 2
     # Result: 4.0 (Wrong! It should be 3.0)
     # Fix: (2 + 4) / 2
     ```
-    
+
 
 </details>
 
@@ -2606,7 +2606,7 @@ try:
     print("Opening Bank Database...")
     balance = 100
     amount = int(input("Enter amount to withdraw: "))
-    result = balance / amount 
+    result = balance / amount
 
 except ZeroDivisionError:
     # 2. Specific Crash Handler
@@ -2685,7 +2685,7 @@ Checking matrix shapes. If you try to multiply a (3x3) matrix with a (2x2) matri
 def train_model(data):
     # Sanity Check
     assert len(data) > 0, "Dataset is empty! Cannot train."
-    
+
     print("Training started...")
 
 # train_model([]) # This crashes immediately with AssertionError
@@ -2712,7 +2712,7 @@ import logging
 
 # Setup the Black Box
 logging.basicConfig(
-    filename="app.log", 
+    filename="app.log",
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
@@ -3018,7 +3018,7 @@ for img_path in folder.glob("*.jpg"):
     - **Answer:** JSON is text-based and universal (Python, JS, Java can all read it). Pickle is Python-specific. A Java program cannot understand a Pickle file.
 3. **Scenario:** *Your script reads a config file, but sometimes the file is missing. How do you handle this?*Python
     - **Answer:** Use a `try-except FileNotFoundError` block. inside the `except`, you can either create a default config or warn the user.
-    
+
     ```jsx
     try:
         with open("config.json") as f:
@@ -3087,7 +3087,7 @@ print(math.log10(100)) # Log Base 10
 **Senior Engineer Tip:**
 
 > "Never implement `math.factorial(x)` manually using a `for` loop. The built-in `math.factorial` is highly optimized C code. Your loop is slow. Use the tool."
-> 
+>
 
 </details>
 
@@ -3199,7 +3199,7 @@ So, computers **lie**. They chop off the end of the number. This is called **Flo
 
 ```jsx
 val = 0.1 + 0.2
-print(val) 
+print(val)
 # Output: 0.30000000000000004
 # IT IS NOT 0.3!
 ```
@@ -3398,7 +3398,7 @@ Python integers vary in size. NumPy integers are fixed.
 **Senior Tip:**
 
 > "If you are loading a 10GB dataset of small integers (0-100), convert them to `int8`. You will reduce RAM usage from 10GB to 1.2GB instantly."
-> 
+>
 
 ```jsx
 arr = np.array([1, 2, 3], dtype='int8')
@@ -3436,7 +3436,7 @@ subset = arr[0:2] # Points to index 0 and 1 of 'arr'
 subset[0] = 999
 
 # CHECK ORIGINAL
-print(arr) 
+print(arr)
 # Output: [999, 2, 3, 4, 5]  <-- THE ORIGINAL CHANGED!
 ```
 
@@ -3766,7 +3766,7 @@ plt.show()`
 ### 1. Labeling (The Golden Rule)
 
 > "A chart without labels is not a chart. It is abstract art."
-> 
+>
 
 If you submit a plot without:
 
