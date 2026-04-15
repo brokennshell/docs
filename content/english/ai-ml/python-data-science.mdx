@@ -276,7 +276,7 @@ If Keywords are the "Official Titles," **Identifiers** are the names *you* give 
 **✗ BAD (Junior Style):**
 
 ```python
-x = 10 
+x = 10
 Fn = "John" # Cryptic. Nobody knows what this is.
 ```
 
@@ -385,7 +385,7 @@ This is how your program talks to the world.
 
 - **`print()`:** Outputs data to the console.
     - *Pro Tip:* Use **f-strings** (formatted strings) for clean output.
-    
+
     ```python
     name = "Shakil"
     # Old Way (Ugly)
@@ -393,15 +393,15 @@ This is how your program talks to the world.
     # Modern Way (Clean)
     print(f"Hello {name}")
     ```
-    
+
 - **`input()`:** Takes data from the user.
     - **CRITICAL RULE:** `input()` **ALWAYS** returns a **STRING**. Even if you type a number.
-    
+
     ```python
     age = input("Enter age: ") # User types 25
     print(type(age)) # <class 'str'>
     ```
-    
+
     - You must wrap it in `int()` if you want to do math: `age = int(input("Enter age: "))`
 
 </details>
@@ -448,11 +448,11 @@ print(0.1 + 0.2)
 
 - **Why?** Because 0.1 is actually stored as 0.10000000000000000555... in memory.
 - **The Fix:** Never compare floats with `==`.
-    
+
     ```python
     # ✗ BAD
     if (0.1 + 0.2) == 0.3: # False!
-    
+
     # ✓ GOOD
     import math
     if math.isclose(0.1 + 0.2, 0.3): # True!
@@ -545,7 +545,7 @@ if isinstance(x, int):
 1. **Don't name variables `l`, `O`, or `I`**: They look like `1` and `0` in some fonts. Use `level`, `output`, `index`.
 2. **f-strings are faster**: `f"{var}"` is slightly faster than `var + " string"` and much more readable. Use them by default.
 3. **The `_` variable**: In the interactive shell (REPL), `_` stores the result of the last operation.
-    
+
     ```python
     >>> 5 + 5
     10
@@ -559,7 +559,7 @@ if isinstance(x, int):
     - You don't need to write `if my_list != []:`.
     - Python treats empty things (0, 0.0, "", [], None) as **False**.
     - Everything else is **True**.
-    
+
     ```python
     name = ""
     if name: # Checks if name is not empty
@@ -614,3 +614,3217 @@ if isinstance(x, int):
 
 
 </div>
+
+{/* ============================================================ */}
+{/* MODULE 2 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown">
+<summary><strong>MODULE 2: Operators & Expressions</strong></summary>
+
+**Goal:** Logic and Numerical Confidence.
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2.1: Arithmetic Operators (The Math)</summary>
+
+#### 1. The Basics (+, -, *, /)
+
+These work exactly like your calculator.
+
+- `+` (Add): `10 + 5 = 15`
+- `-` (Subtract): `10 - 5 = 5`
+- `*` (Multiply): `10 * 5 = 50`
+- `/` (Divide): **Crucial Note:** In Python, Division **ALWAYS** returns a `float`. Even if the answer is perfect.
+    - `10 / 2` -> `5.0` (Not `5`)
+
+#### 2. The Special Ones (//, %, **)
+
+This is where beginners get confused.
+
+**A. Floor Division (`//`) - "The Integer Cut"**
+
+It divides and *throws away* the decimal part. It does not round up; it floors (cuts off).
+
+- `10 // 3` -> `3` (Because `3.333...` becomes `3`)
+- `5 // 2` -> `3` (Be careful! It rounds *down* to the lower integer).
+
+**B. Modulo (`%`) - "The Remainder"**
+
+This is the most useful operator for algorithms. It gives you what is *left over*.
+
+- `10 % 3` -> `1` (3 goes into 10 three times, remainder is 1).
+- **Use Case:** checking for Even/Odd numbers.
+    - `x % 2 == 0` (It is Even)
+    - `x % 2 == 1` (It is Odd)
+
+**C. Exponentiation (`**`) - "The Power"**
+
+- `2 ** 3` -> `8` ($2^3$)
+- **Math Tip:** You can use this for square roots too! `16 ** 0.5` is `4.0`.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2.2: Relational Operators (The Comparators)</summary>
+
+These operators ask a question. The answer is always **True** or **False**.
+
+- `>` (Greater than)
+- `<` (Less than)
+- `>=` (Greater or Equal)
+- `<=` (Less or Equal)
+- `==` (Equal to) -> **The Trap:** Do not confuse `=` (Assign) with `==` (Compare).
+- `!=` (Not Equal to)
+
+**Senior Engineer Tip:**
+
+You can chain comparisons in Python (You can't do this in C++ or Java).
+
+```jsx
+x = 10
+# X BAD (Old School)
+if x > 5 and x < 20:
+
+# ☑ GOOD (Pythonic)
+if 5 < x < 20: # Math style!
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2.3: Logical Operators (The Logic Gates)</summary>
+
+These combine multiple conditions.
+
+**1. `and` (The Strict Boss)**
+
+- Returns `True` only if **BOTH** sides are True.
+- If one fails, everything fails.
+
+**2. `or` (The Flexible Friend)**
+
+- Returns `True` if **AT LEAST ONE** side is True.
+- It only fails if *both* are False.
+
+**3. `not` (The Reverser)**
+
+- Flips `True` to `False` and `False` to `True`.
+
+[Image of logical operators truth table](https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcTq2XkTJ_HIG1BZ0eHxsn2peKm6q6YS-n6hlwWK_l3xVlvR_pgOpG3uPE6oTfl5349DKuAz4w2liLJJIsGtf37VYjxEKc7f-yGtnYWsf8TmuYskY-A)
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2.4: Short-Circuit Evaluation (The Efficiency Hack)</summary>
+
+This is a favorite Interview Question. Python is lazy (efficient). It stops checking as soon as it knows the answer.
+
+**The "AND" Short-Circuit:**
+
+- Imagine: `Condition_A and Condition_B`.
+- If `Condition_A` is **False**, Python **DOES NOT CHECK** `Condition_B`.
+- *Why?* Because `False and Anything` is always False. Why waste energy checking B?
+
+**The "OR" Short-Circuit:**
+
+- Imagine: `Condition_A or Condition_B`.
+- If `Condition_A` is **True**, Python **DOES NOT CHECK** `Condition_B`.
+- *Why?* Because `True or Anything` is always True.
+
+**Real World Use Case (Safety Check):**
+
+```jsx
+# We want to divide by x, but x might be 0.
+x = 0
+
+# X BAD (Crash!)
+if 10 / x > 1: # Error: ZeroDivisionError
+
+# ☑ GOOD (Safe)
+if x != 0 and (10 / x) > 1:
+    # Python sees (x != 0) is False.
+    # It STOPS. It never calculates (10 / x). Crash prevented.
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2.5: Bitwise Operators (The Binary Level)</summary>
+
+**Senior Level Topic.** In AI/ML, we use this for "Masking" images or packing data efficiently.
+
+These operators work on **Bits** (0s and 1s), not numbers.
+
+**The Light Switch Analogy:**
+
+Imagine 8 light switches (1 Byte).
+
+- `1` = ON
+- `0` = OFF
+1. **Bitwise AND (`&`)**: Both switches must be ON for the result to be ON.
+2. **Bitwise OR (`|`)**: Only one switch needs to be ON.
+3. **Bitwise XOR (`^`)**: Result is ON if switches are *different*. (1^0=1, 1^1=0).
+4. **Left Shift (`<<`)**: Pushes bits to the left.
+    - `x << 1` multiplies `x` by 2.
+    - `x << 2` multiplies `x` by 4.
+    - *Why?* Because binary works in powers of 2. Moving digits left increases value.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2.6: Operator Precedence (The Order of Operations)</summary>
+
+Who is the King? If you write `2 + 3 * 4`, what is the answer?
+
+- If you add first: `5 * 4 = 20` (Wrong)
+- If you multiply first: `2 + 12 = 14` (Correct)
+
+**The Hierarchy (PEMDAS Rule):**
+
+1. `()` **Parentheses** (King) - Always happens first.
+2. `*` **Exponent**
+3. `~, +, -` **Unary** (Positive/Negative signs)
+4. `, /, //, %` **Multiplication/Division**
+5. `+, -` **Addition/Subtraction**
+6. `<<, >>` **Bitwise Shifts**
+7. `&` **Bitwise AND**
+8. `^` **Bitwise XOR**
+9. `|` **Bitwise OR**
+10. `==, !=, >, <` **Relational**
+11. `not`
+12. `and`
+13. `or`
+
+**Senior Engineer Wisdom:**
+
+> "Don't memorize the table. Just use Parentheses `()`. It makes your code readable and bug-free.
+>
+>
+> `a + b * c` is correct but scary. `a + (b * c)` is clear and safe."
+>
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>Interview Questions</summary>
+
+1. **Basic:** *What is the difference between `/` and `//` in Python?*
+    - **Answer:** `/` is True Division (returns float). `//` is Floor Division (returns integer, rounded down). `5/2=2.5`, but `5//2=2`.
+2. **Intermediate:** *Explain Short-Circuit Evaluation with an example.*
+    - **Answer:** It's an optimization where the second argument is executed only if the first argument does not suffice to determine the value of the expression. Example: `if user and user.is_active:` protects us from accessing `.is_active` on a `None` user.
+3. **Advanced:** *How do you swap two variables without a third temporary variable in Python?*
+    - **Answer:** Using tuple unpacking (Expression): `a, b = b, a`.
+    - *Bonus (Bitwise way):* `a = a ^ b; b = a ^ b; a = a ^ b` (Don't use this in production, just show off in interviews).
+
+</details>
+
+</details>
+
+</div>
+
+{/* ============================================================ */}
+{/* MODULE 3 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown" open>
+<summary><strong>MODULE 3: Control Flow & Logic</strong></summary>
+
+: February 10, 2026 10:18 AM
+Created by: LAKSHAY RAJ
+Created time: February 8, 2026 10:24 AM
+Review: No
+Source: Learning
+Type: Notes
+
+**Goal:** Write intelligent decision-based programs.
+
+Without Control Flow, your code is just a calculator that runs from top to bottom. Control Flow gives your code a **Brain**. It allows it to make decisions ("If X happens, do Y") and repeat tasks ("Do this 100 times").
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 3.1: Conditional Statements (The Decision Maker)</summary>
+
+#### 1. `if`, `elif`, `else` (The Bouncer)
+
+Imagine a nightclub. The Bouncer (Python) checks your ID.
+
+- **`if`:** "Are you 21+?" (First check). If yes, enter.
+- **`elif` (Else If):** "Okay, you're not 21, but are you on the VIP list?" (Second check).
+- **`else`:** "Get out." (Fallback if everything else fails).
+
+**Code Structure:**
+
+```jsx
+age = 20
+is_vip = True
+
+if age >= 21:
+    print("Welcome in!")
+elif is_vip:
+    print("Welcome, VIP!")
+else:
+    print("Go home.")
+```
+
+- **Key Rule:** Only **ONE** block runs. As soon as Python finds a `True` condition, it skips the rest.
+
+#### 2. Nested Conditions (The Russian Doll)
+
+You can put an `if` inside an `if`.
+
+- **The Danger:** If you nest too deep (3+ levels), your code becomes unreadable "Spaghetti Code."
+
+**X BAD (Deep Nesting):**
+
+```jsx
+if user_exists:
+    if password_correct:
+        if has_permission:
+            print("Access Granted")
+```
+
+**☑ GOOD (Guard Clauses - Senior Style):**
+
+Instead of nesting, use "Early Returns" to reject bad cases first.
+
+```jsx
+if not user_exists:
+    return "User not found"
+if not password_correct:
+    return "Wrong password"
+# If we survive until here, we are safe!
+print("Access Granted")
+```
+
+#### 3. Ternary Operator (The One-Liner)
+
+Professionals love this for simple assignments. It condenses 4 lines into 1.
+
+- **Syntax:** `Value_If_True if Condition else Value_If_False`
+
+```jsx
+age = 18
+# Old Way
+status = ""
+if age >= 18:
+    status = "Adult"
+else:
+    status = "Child"
+
+# Pro Way (Ternary)
+status = "Adult" if age >= 18 else "Child"
+```
+
+#### 4. `match-case` (Python 3.10+ Update)
+
+For years, Python didn't have a `switch` statement (like Java/C++). We had to write 50 `elif`s.
+
+Now, we have `match-case`. It is cleaner and faster for matching specific values.
+
+```jsx
+status_code = 404
+
+match status_code:
+    case 200:
+        print("Success")
+    case 404:
+        print("Not Found")
+    case 500:
+        print("Server Error")
+    case _:
+        print("Unknown Status") # The 'else' case
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 3.2: Loops (The Automation Engine)</summary>
+
+#### 1. `for` Loops (The "Definite" Loop)
+
+Use this when you know **exactly** how many times you want to loop (e.g., "for every item in this list").
+
+**The `range()` function:**
+
+- `range(5)` -> `0, 1, 2, 3, 4` (Stops *before* 5)
+- `range(2, 6)` -> `2, 3, 4, 5`
+- `range(0, 10, 2)` -> `0, 2, 4, 6, 8` (Step by 2)
+
+[Image of python for loop flowchart](https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSiypHYIz1dMbpOIqLyaca6KZdgWS-7fYO88ZdhN-iKEUMXQYO4xNkou4m4XXBaugv7AGbLkCcr_SYHPi4JoqmDu1_U2g3A86J1QwDBJeQFmHDRiqA)
+
+```jsx
+# Iterate over a list
+fruits = ["Apple", "Banana", "Cherry"]
+for fruit in fruits:
+    print(f"I like {fruit}")
+```
+
+#### 2. `while` Loops (The "Indefinite" Loop)
+
+Use this when you **don't know** when to stop (e.g., "Run until the user types 'exit'").
+
+- **Danger:** Infinite Loops. If the condition never becomes `False`, your program freezes forever.
+
+```jsx
+battery = 100
+while battery > 0:
+    print(f"Running... {battery}%")
+    battery -= 10 # IMPORTANT: Must change the condition!
+print("Phone dead.")
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 3.3: Loop Control (The Steering Wheel)</summary>
+
+You can interrupt a loop mid-way.
+
+#### 1. `break` (The Eject Button)
+
+Kills the loop immediately.
+
+```jsx
+# Search for a number
+for num in [1, 5, 3, 9, 2]:
+    if num == 9:
+        print("Found 9!")
+        break # Stop searching. We found it.
+```
+
+#### 2. `continue` (The Skip Button)
+
+Skips the *current* iteration and jumps to the next one.
+
+```jsx
+# Print only odd numbers
+for i in range(10):
+    if i % 2 == 0:
+        continue # Skip even numbers
+    print(i) # Only prints 1, 3, 5...
+```
+
+#### 3. `pass` (The Placeholder)
+
+Does nothing. It is a "To Do" note for Python.
+
+- *Why?* Python throws an error if an `if` or `function` block is empty. `pass` prevents the error.
+
+```jsx
+if error_occurred:
+    pass # TODO: Handle this later
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 3.4: Nested Loops & Time Complexity (The Performance Trap)</summary>
+
+#### 1. Nested Loops
+
+A loop inside a loop.
+
+- **Analogy:** A Clock. The "Second Hand" (Inner Loop) spins 60 times for every 1 move of the "Minute Hand" (Outer Loop).
+
+    ```jsx
+    adj = ["red", "big"]
+    fruits = ["apple", "cherry"]
+
+    for a in adj:          # Outer Loop (Runs 2 times)
+        for f in fruits:   # Inner Loop (Runs 2 times per Outer)
+            print(a, f)
+    # Total Prints: 2 * 2 = 4
+    ```
+
+
+#### 2. Time Complexity Intuition (Big O)
+
+This is how we measure "Slowness."
+
+- **O(n) - Linear Time:**
+    - You have a list of `n` items. You loop through it **once**.
+    - If list doubles, time doubles. Good.
+    - Example: Simple `for` loop.
+- **O(n^2) - Quadratic Time (The Danger Zone):**
+    - You have a Nested Loop (Loop inside a Loop).
+    - If list doubles, time **QUADRUPLES**.
+    - *Example:* If `n=10`, steps=100. If `n=1,000`, steps=1,000,000.
+    - **Senior Tip:** Avoid nested loops on large datasets (Images, Big Data). It will crash your server.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>Senior Engineer Tips</summary>
+
+1. **Use `enumerate()`:** Stop manually counting indexes.Python
+
+    ```jsx
+    # X BAD
+    i = 0
+    for item in items:
+        print(i, item)
+        i += 1
+
+    # ☑ GOOD
+    for i, item in enumerate(items):
+        print(i, item)
+    ```
+
+
+1. **`zip()` is Magic:** Loop through two lists at the same time.Python
+
+    ```jsx
+    names = ["Alice", "Bob"]
+    scores = [85, 90]
+    for name, score in zip(names, scores):
+        print(f"{name} got {score}")
+    ```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>Interview Questions</summary>
+
+1. **Basic:** *What is the difference between `break` and `continue`?*
+    - **Answer:** `break` exits the loop entirely. `continue` skips the rest of the current iteration and jumps to the start of the next one.
+2. **Intermediate:** *Why should we avoid Nested Loops in AI/ML?*
+    - **Answer:** Because of **O(n^2)** Time Complexity. As data grows (millions of rows), nested loops become exponentially slower, making training take years instead of hours.
+3. **Scenario:** *How do you emulate a `do-while` loop in Python? (Python doesn't have one)*Python
+    - **Answer:** Use a `while True` loop with a `break` condition at the end.
+
+    ```jsx
+    while True:
+        action()
+        if condition_met:
+            break
+    ```
+
+</details>
+
+</details>
+
+</div>
+
+
+{/* ============================================================ */}
+{/* MODULE 4 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown" open>
+<summary><strong>MODULE 4: Functions (The Heart of ML)</strong></summary>
+
+**Goal:** Stop writing code that looks like a "Wall of Text." Start writing Modular, Reusable, and Testable blocks.
+
+In Machine Learning, a function is a mathematical operation. f(x) = y. If you don't understand functions, you cannot build Neural Networks.
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4.1: The Basics (Definition & Return)</summary>
+
+#### 1. Defining a Function (The Factory)
+
+A function is a machine. You put raw material in (Arguments), the machine does work (Body), and it spits out a finished product (Return).
+
+**Syntax:**
+
+```jsx
+def make_coffee(beans):   # Header
+    liquid = beans + " water"  # Body
+    return liquid         # Output
+```
+
+#### 2. Return vs. Print (The #1 Beginner Mistake)
+
+This confuses everyone.
+
+- **`print()`:** Displays pixels on the screen. It is for **Humans** to see. The computer **loses** the data immediately after showing it.
+- **`return`:** Hands the data back to the program. It is for the **Computer** to use later.
+
+**The Analogy:**
+
+- **`print`:** The Chef shouts "The Pizza is Ready!" (You hear it, but you can't eat the shout).
+- **`return`:** The Waiter brings the Pizza to your table (You can actually eat/use it).
+
+**X BAD (Junior - Dead End):**
+
+```jsx
+def add(a, b):
+    print(a + b) # Displays 5
+
+result = add(2, 3)
+print(result * 2) # ERROR! Because 'result' is None (Void).
+```
+
+**☑ GOOD (Senior - Reusable):**
+
+```jsx
+def add(a, b):
+    return a + b # Returns 5
+
+result = add(2, 3)
+print(result * 2) # Works! Output: 10
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4.2: Arguments (The Inputs)</summary>
+
+#### 1. Positional vs. Keyword (The Specificity)
+
+- **Positional:** Python assumes the first value goes to the first variable.
+    - `func(10, 20)` -> `a=10, b=20`.
+- **Keyword:** You explicitly tell Python which argument is which. Order doesn't matter!
+    - `func(b=20, a=10)` -> Safe and readable.
+
+#### 2. Default Arguments (The Fallback)
+
+What if the user forgets an input? We set a default.
+
+```jsx
+def greet(name, msg="Good Morning"):
+    print(f"{msg}, {name}")
+
+greet("Hemant")         # Uses default: "Good Morning, Shakil"
+greet("Rahul", "Hello") # Overrides default: "Hello, Rahul"
+```
+
+#### 3. Variable Length (`args` & `*kwargs`) - The "Magic Bag"
+
+Sometimes you don't know how many inputs you will get (e.g., calculating the average of 2 numbers... or 50 numbers).
+
+- **`args` (Arguments):** Collects extra positional arguments into a **Tuple**.Python
+
+    ```jsx
+    def sum_all(*args):
+        # args = (1, 2, 3, 4)
+        return sum(args)
+
+    print(sum_all(1, 2, 3, 4)) # Output: 10
+    ```
+
+- **`*kwargs` (Keyword Arguments):** Collects extra keyword arguments into a **Dictionary**.Python
+
+    ```jsx
+    def create_profile(**kwargs):
+        # kwargs = {'name': 'Shakil', 'age': 30}
+        print(kwargs['name'])
+
+    create_profile(name="Shakil", age=30)
+    ```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4.3: Scope (Visibility)</summary>
+
+**The Rule:** "What happens in Vegas (Function), stays in Vegas."
+
+1. **Local Scope:** Variables created *inside* a function. They die when the function ends.
+2. **Global Scope:** Variables created *outside* all functions. Everyone can see them.
+3. **Nonlocal:** Used in nested functions (rare, but good to know).
+
+**The Trap:**
+
+```jsx
+x = 10 # Global
+
+def change_x():
+    x = 20 # This creates a NEW local variable 'x'. It doesn't touch the global 'x'.
+    print("Inside:", x) # 20
+
+change_x()
+print("Outside:", x) # Still 10!
+```
+
+- *Fix:* If you MUST change the global variable (don't do this usually), use the `global` keyword.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4.4: Lambda Functions (The Sniper)</summary>
+
+A **Lambda** is a "Anonymous Function." It has no name. It is a one-liner.
+
+- **Use Case:** Quick, throwaway logic (e.g., inside sorting or filtering).
+
+**Syntax:** `lambda inputs: output`
+
+```python
+# Normal Function
+def square(x):
+    return x * x
+
+# Lambda Equivalent
+square = lambda x: x * x
+
+print(square(5)) # 25
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4.5: Functional Programming (Big Data Tools)</summary>
+
+Loops are slow. In AI/ML Data Pipelines, we use **Map, Filter, and Reduce**. These are optimized C-speed functions.
+
+#### 1. `map(function, list)`
+
+"Apply this function to every item in the list."
+
+```jsx
+nums = [1, 2, 3, 4]
+squared = list(map(lambda x: x**2, nums))
+# Result: [1, 4, 9, 16]
+```
+
+#### 2. `filter(function, list)`
+
+"Keep only the items where the function returns True."
+
+```jsx
+nums = [1, 2, 3, 4]
+evens = list(filter(lambda x: x % 2 == 0, nums))
+# Result: [2, 4]
+```
+
+#### 3. `reduce(function, list)`
+
+"Squash the list down to one single value." (Requires `functools` import).
+
+```jsx
+from functools import reduce
+nums = [1, 2, 3, 4]
+# (((1+2)+3)+4) = 10
+total = reduce(lambda x, y: x + y, nums)
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4.6: Senior Engineer Standards</summary>
+
+#### 1. Pure Functions
+
+A function is **Pure** if:
+
+1. It always gives the same output for the same input.
+2. It has **No Side Effects** (doesn't change global variables, doesn't write to files, doesn't print).
+- *Why?* Pure functions are easy to test and parallelize (run on multiple CPU cores).
+
+#### 2. Docstrings & Type Hints
+
+Python ignores Type Hints, but **Humans** and **IDEs** (VS Code) love them. They prevent bugs.
+
+**The Gold Standard:**
+
+```jsx
+def calculate_velocity(dist: float, time: float) -> float:
+    """
+    Calculates velocity based on distance and time.
+
+    Args:
+        dist (float): Distance in meters.
+        time (float): Time in seconds.
+
+    Returns:
+        float: Velocity in m/s.
+    """
+    if time == 0:
+        return 0.0
+    return dist / time
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>Interview Questions</summary>
+
+1. **The "Mutable Default" Trap (Crucial):**
+    - *Question:* What is wrong with this code? `def add_item(item, list=[]):`
+    - *Answer:* The list `[]` is created **ONCE** when Python starts. If you call the function 5 times, it keeps adding to the *same* list.
+    - *Fix:* Use `def add_item(item, list=None):` and create the list inside.
+2. **Basic:** *What is the difference between `args` and `*kwargs`?*
+    - *Answer:* `args` unpacks positional arguments into a Tuple. `*kwargs` unpacks keyword arguments into a Dictionary.
+3. **Concept:** *Why are Lambda functions useful in Data Science?*
+    - *Answer:* They allow us to apply quick transformations to DataFrames (e.g., `df.apply(lambda x: x+1)`) without cluttering the code with formal function definitions.
+
+</details>
+
+</details>
+
+</div>
+
+{/* ============================================================ */}
+{/* MODULE 5 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown">
+<summary><strong>MODULE 5: Core Data Structures (AI Backbone)</strong></summary>
+
+
+**Goal:** Data Handling Mastery.
+
+In AI, data isn't just numbers. It is text (NLP), images (pixels), and logs. If you cannot manipulate this raw data, you cannot feed the AI.
+
+We start with the most common data type on the internet: **Strings**.
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 5.1: Strings (The DNA of Text)</summary>
+
+### 1. The Mental Model: The Train
+
+In C++, a String is complex. In Python, a String is simply an **Immutable Sequence of Characters**.
+
+Think of a String like a **Train**.
+
+- Each character is a passenger in a specific seat.
+- You can look at the passenger in Seat 0.
+- **Immutability Rule:** You cannot kick a passenger out while the train is moving. You must build a *new* train if you want to change the seating.
+
+### 2. Indexing & Slicing (The Surgeon's Knife)
+
+Python has the most powerful slicing syntax in the world.
+
+**A. Indexing (Finding a Seat)**
+
+- **0-Based Indexing:** The first item is always at `0`.
+- **Negative Indexing (The Python Superpower):** `1` is the *last* item. `2` is the *second to last*.
+    - *Why?* Because often you don't know the length of the string, but you need the last character.
+
+**B. Slicing (Cutting the Train)**
+
+Syntax: `string[start : stop : step]`
+
+- **Rule #1:** `start` is **Inclusive** (We include it).
+- **Rule #2:** `stop` is **Exclusive** (We stop *before* touching it).
+- **Rule #3:** `step` is the jump size.
+
+**Code Snippets:**
+
+```jsx
+text = "MachineLearning"
+
+# Standard Slice
+print(text[0:7])   # "Machine" (Indices 0 to 6)
+
+# Negative Slice
+print(text[-8:])   # "Learning" (From -8 to the end)
+
+# The Reverse Trick (Interview Favorite)
+print(text[::-1])  # "gninraeLenihcaM" (Step -1 reverses it!)
+```
+
+### 3. String Methods (The Toolset)
+
+Since Strings are immutable, these methods do NOT change the original string. They **return a new one**.
+
+**Essential Methods for Data Cleaning (AI/ML):**
+
+1. **`.strip()`:** Removes whitespace from start/end. (Crucial for cleaning user input).
+2. **`.lower()` / `.upper()`:** Normalizes text. "Apple" and "apple" are different to a computer. `.lower()` makes them the same.
+3. **`.replace(old, new)`:** Swaps text.
+4. **`.split(separator)`:** Turns a String into a List. (The bridge between text and data).
+5. **`.join(list)`:** Turns a List back into a String.
+
+**X BAD (Inefficient):**
+
+```jsx
+s = "  Data  "
+s = s.strip() # Good
+s = s.lower() # Good
+# But calling multiple lines is messy.
+```
+
+**☑ GOOD (Chaining):**
+
+```jsx
+clean_data = "  Data  ".strip().lower().replace("a", "o")
+# Result: "doto"
+```
+
+### 4. Formatting with f-strings (The Modern Way)
+
+Stop using `%` or `.format()`. They are relics of the past.
+
+**f-strings** (Introduced in Python 3.6) are faster and readable.
+
+**Syntax:** `f"some text {variable}"`
+
+```jsx
+model = "GPT-4"
+accuracy = 98.5
+
+# X OLD SCHOOL (Confusing)
+print("Model %s has accuracy %.1f" % (model, accuracy))
+
+# ☑ SENIOR STYLE (Clean)
+print(f"Model {model} has accuracy {accuracy}%")
+```
+
+### 5. Regex Basics (The Magic Wand)
+
+**Regular Expressions (`re` module)** are patterns to find text.
+
+Think of it as "CTRL+F on Steroids."
+
+**Why use it?**
+
+If I ask you to "Find all email addresses in this 10,000 page document," you cannot write an `if` statement for every name. You need a **Pattern**.
+
+**Basic Cheat Sheet:**
+
+- `\d` = Any Digit (0-9)
+- `\w` = Any Letter or Number
+- `.` = Any character
+- `+` = One or more times
+- = Zero or more times
+
+**The "Scanner" Code:**
+
+```jsx
+import re
+
+text = "Contact support@google.com or sales@ai.net for help."
+
+# Pattern: [word] @ [word] . [word]
+pattern = r"[\w\.-]+@[\w\.-]+"
+
+emails = re.findall(pattern, text)
+print(emails)
+# Output: ['support@google.com', 'sales@ai.net']
+```
+
+- *Note:* The `r` before the string means "Raw String". It tells Python to ignore backslashes so Regex can use them.
+
+### Senior Engineer Tips
+
+1. **String Concatenation in Loops is Evil:**
+    - **Bad:** `s = s + "word"` inside a loop.
+    - *Why?* It creates a new string in memory *every single time*. It is $O(n^2)$.
+    - **Good:** Append to a list `[]`, then use `" ".join(list)` at the end. This is $O(n)$.
+2. **Unicode is Pain:**
+    - In AI, you will deal with Emojis, Chinese characters, and weird symbols.
+    - Always ensure your files are opened with `encoding="utf-8"`.
+
+### Interview Questions
+
+1. **Basic:** *Strings are Immutable. What does that mean?*
+    - **Answer:** Once created, the memory content cannot be changed. If you modify a string, Python actually creates a brand new string in a new memory location and points the variable to it.
+2. **Intermediate:** *What is the difference between `re.search()` and `re.match()`?*
+    - **Answer:** `re.match()` only checks the **start** of the string. `re.search()` scans the **entire** string for a match.
+3. **Scenario:** *How do you reverse a string without using a loop or `.reverse()`?*
+    - **Answer:** Using slicing: `string[::-1]`.
+
+**(End of Module 5.1 Notes)**
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 5.2: Lists (The Workhorse of AI)</summary>
+
+In AI, a List is your primary container. It holds your datasets, your image pixels, and your model predictions. If you cannot manage Lists, you cannot manage Data.
+
+### 1. The Mental Model: The Dynamic Shelf
+
+A String is a "Train" (Immutable). You can't change passengers.
+
+A **List** is a **Smart Bookshelf** (Mutable).
+
+- **Dynamic:** You can add books, remove books, or rearrange them at any time.
+- **Heterogeneous:** You can put a Book, a Laptop, and a Coffee Cup on the same shelf. (Integers, Strings, Booleans all in one list).
+
+**Creation:**
+
+```jsx
+# Empty List
+my_shelf = []
+
+# Mixed Data (Python allows this!)
+data = [1, "Apple", 3.14, True]
+```
+
+### 2. Manipulation (Add, Remove, Change)
+
+This is where lists shine. You have full control.
+
+**A. Adding Items**
+
+- **`.append(item)`:** Adds to the **END**. (Fastest operation).
+- **`.insert(index, item)`:** Forces an item into the middle.
+    - **The Cost:** Everything to the right must "shift" over. This is slow ($O(n)$).
+
+**B. Removing Items**
+
+- **`.pop()`:** Removes the **last** item and *gives it to you* (Returns it).
+- **`.remove(value)`:** Finds the *first* occurrence of a value and deletes it.
+- **`del list[index]`:** Nuke a specific spot.
+
+**Senior Engineer Tip (Performance):**
+
+> "Avoid `.insert(0, item)` inside a loop. Inserting at the start forces Python to move *every single item* in the list one step back. Use `.append()` and reverse the list later if needed."
+>
+
+### 3. List Methods ( The Toolbelt)
+
+Python lists come with built-in superpowers.
+
+- **`.sort()`:** Sorts the list *in place* (Permanently changes the original).
+- **`.sorted(list)`:** Returns a *new* sorted list (Original stays messy).
+- **`.reverse()`:** Flips the list.
+- **`.extend(other_list)`:** Glues two lists together.
+
+**The "Append vs. Extend" Trap (Interview Favorite):**
+
+```jsx
+a = [1, 2]
+b = [3, 4]
+
+# Scenario A: Append
+a.append(b)
+print(a) # Output: [1, 2, [3, 4]] -> Nested List! (Often NOT what you want)
+
+# Scenario B: Extend
+a = [1, 2]
+a.extend(b)
+print(a) # Output: [1, 2, 3, 4] -> Merged List (Usually what you want)
+```
+
+### 4. Nested Lists (The Matrix)
+
+A List inside a List.
+
+This is the foundation of **Images** and **Tensors**.
+
+- An Image is just a List of Rows.
+- Each Row is a List of Pixels.
+
+**Visualizing a 3x3 Matrix:**
+
+```jsx
+matrix = [
+    [1, 2, 3],  # Row 0
+    [4, 5, 6],  # Row 1
+    [7, 8, 9]   # Row 2
+]
+```
+
+**Accessing Data:**
+
+Syntax: `list[row][col]`
+
+- `matrix[0]` -> `[1, 2, 3]` (First Row)
+- `matrix[1][2]` -> `6` (Row 1, Index 2)
+
+### 5. List Comprehension (CRUCIAL)
+
+This is the **#1 Skill** that separates a Python Beginner from a Python Pro.
+
+It allows you to create new lists from existing ones in a **single, readable line**.
+
+**The Syntax:**
+
+`[ expression  for item in list  if condition ]`
+
+**Scenario:** You have a list of numbers. You want a new list with only the *even* numbers, squared.
+
+**X BAD (Junior - The "C++" Way):**
+
+```jsx
+nums = [1, 2, 3, 4, 5]
+result = []
+for n in nums:
+    if n % 2 == 0:
+        result.append(n * n)
+# 4 lines of code. Slow to read.
+```
+
+**☑ GOOD (Senior - The "Pythonic" Way):**
+
+```jsx
+nums = [1, 2, 3, 4, 5]
+#              Expr     Loop         Condition
+result = [n * n  for n in nums  if n % 2 == 0]
+# 1 line. Reads like English.
+```
+
+**Why is this Crucial for AI?**
+
+In Data Science, you constantly clean data. "Take this column, remove NaNs, and multiply by 100." List Comprehension does this instantly.
+
+### Senior Engineer Tips
+
+1. **Copying Lists is Tricky:**
+    - `list_a = [1, 2, 3]`
+    - `list_b = list_a` (This is **NOT** a copy. It is a Reference/Alias. If you change B, A changes too!)
+    - **Fix:** Use `list_b = list_a.copy()` or slicing `list_b = list_a[:]`.
+2. **Memory Management:** Lists use more memory than Arrays (C++). If you are dealing with *millions* of numbers, switch to **NumPy Arrays** (Module 8). Lists are for general objects; NumPy is for math.
+
+### Interview Questions
+
+1. **Basic:** *What is the difference between `list.sort()` and `sorted(list)`?*
+    - **Answer:** `list.sort()` modifies the list **in-place** and returns `None`. `sorted(list)` creates and returns a **new** list, leaving the original untouched.
+2. **Intermediate:** *How do you flatten a nested list `[[1,2], [3,4]]` using List Comprehension?*
+    - **Answer:** `[item for sublist in main_list for item in sublist]`. (This tests if you understand double loops in comprehension).
+3. **Advanced:** *Explain how Python Lists work in memory. Are they contiguous blocks like C arrays?*
+    - **Answer:** No. A Python list is an array of **pointers** (references). The list stores addresses, and those addresses point to the actual objects (Integers, Strings) scattered in memory. This is why Python lists can hold different data types.
+
+**(End of Module 5.2 Notes)**
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 5.3: Tuples (The Immutable Seal)</summary>
+
+Beginners think Tuples are just "Lists with parentheses." That is wrong. Tuples are about **Structure and Safety**. In AI, they are critical for defining dimensions and coordinates.
+
+### 1. The Mental Model: The Sealed Shipment
+
+- **List (`[]`):** A **Backpack**. You can put items in, take them out, and shuffle them around while walking.
+- **Tuple (`()`):** A **Sealed Amazon Package**. Once it is packed and taped shut, you cannot add an extra item. You cannot swap an item. It is **Final**.
+
+**Why use them?**
+
+1. **Safety:** If you pass a List of configuration settings to a function, a bad junior engineer might accidentally `.append()` something and break the app. If you pass a Tuple, the code crashes if they try to touch it.
+2. **Speed:** Tuples are slightly faster and lighter in memory than Lists because Python doesn't need to allocate extra space for "future additions."
+
+### 2. Immutability (Read-Only Mode)
+
+**Syntax:** Uses parentheses `()` instead of square brackets `[]`.
+
+```jsx
+# List (Mutable - Dangerous)
+my_list = [10, 20]
+my_list[0] = 99 # Works! List is now [99, 20]
+
+# Tuple (Immutable - Safe)
+my_tuple = (10, 20)
+# my_tuple[0] = 99  <-- CRASH! TypeError: 'tuple' object does not support item assignment.
+```
+
+**The "Single Item" Trap:**
+
+If you create a tuple with one item, you **MUST** add a comma.
+
+- `x = (5)` -> Python thinks this is just math parentheses. `x` is an Integer.
+- `x = (5,)` -> Now Python knows it is a Tuple.
+
+### 3. Packing & Unpacking (The Python Magic)
+
+This is the **#1 feature** you will use daily in Data Science. It allows you to assign multiple variables in one line.
+
+**A. Packing:**
+
+Throwing multiple values into one variable automatically creates a tuple.
+
+```jsx
+coordinates = 10, 20 # Parentheses are optional!
+print(coordinates)   # Output: (10, 20)
+```
+
+**B. Unpacking:**
+
+Taking a tuple and extracting its values into separate variables.
+
+```jsx
+data = ("Shakil", 25, "AI Engineer")
+
+# X BAD (Old Way)
+name = data[0]
+age = data[1]
+job = data[2]
+
+# ☑ GOOD (Unpacking)
+name, age, job = data
+print(name) # "Shakil"
+```
+
+**The "Star" Unpacking (*):**
+
+What if you only want the first item and don't care about the rest?
+
+```jsx
+scores = (98, 85, 76, 90, 89)
+
+top_score, *others = scores
+
+print(top_score) # 98
+print(others)    # [85, 76, 90, 89] (The rest are packed into a list)
+```
+
+**The "Swap" Trick (Interview Favorite):**
+
+In C++ or Java, swapping two variables requires a third `temp` variable.
+
+In Python, we use Tuple Unpacking:
+
+```jsx
+a = 5
+b = 10
+
+a, b = b, a  # Magic!
+```
+
+### 4. Use Cases in ML Pipelines
+
+Tuples are not just for fun. They are the backbone of **Tensors**.
+
+**A. Tensor Shapes (Dimensions)**
+
+In TensorFlow or PyTorch, the shape of an image is **always** a Tuple.
+
+- Shape: `(Height, Width, Channels)` -> `(256, 256, 3)`
+- *Why?* Because an image's dimensions shouldn't randomly change during training. Immutability protects the math.
+
+**B. Returning Multiple Values**
+
+Functions can only return ONE thing. But if you return a Tuple, it *looks* like you are returning multiple things.
+
+```jsx
+def get_model_metrics():
+    accuracy = 0.95
+    loss = 0.02
+    return accuracy, loss # Returns a tuple (0.95, 0.02)
+
+# Unpacking the result immediately
+acc, loss = get_model_metrics()
+```
+
+**C. Dictionary Keys**
+
+- **Rule:** Lists **CANNOT** be keys in a dictionary (because they change).
+- **Rule:** Tuples **CAN** be keys (because they are constant).Python
+    - *Use Case:* Using GPS coordinates as a key.
+
+    ```jsx
+    locations = {
+        (40.71, -74.00): "New York",
+        (34.05, -118.24): "Los Angeles"
+    }
+    ```
+
+
+### Senior Engineer Tips
+
+1. **Named Tuples:**Python
+    - Regular tuples are confusing: `user[0]`? What is index 0? Name? Age?
+    - Use `collections.namedtuple` to give names to the slots.
+
+    ```jsx
+    from collections import namedtuple
+
+    Point = namedtuple('Point', ['x', 'y'])
+    p = Point(10, 20)
+
+    print(p.x) # Readable! Instead of p[0]
+    ```
+
+2. **Memory Optimization:**
+    - If you have a massive dataset of static data (e.g., millions of X, Y points), store them as Tuples, not Lists. It saves RAM.
+
+### Interview Questions
+
+1. **Basic:** *Can I modify a list inside a tuple?*
+    - **Answer:** **YES.** This is a trick question.
+    - `t = (1, [2, 3])`
+    - `t[0] = 5` -> **Error** (Tuple is immutable).
+    - `t[1].append(4)` -> **Allowed!** (The *List inside* is mutable). The Tuple only protects the *reference* to the list, not the list's contents.
+2. **Intermediate:** *What is the difference between `(1)` and `(1,)`?*
+    - **Answer:** `(1)` is an Integer (mathematical parenthesis). `(1,)` is a Tuple containing one integer.
+3. **Scenario:** *Why does PyTorch use tuples for `.shape` instead of lists?*
+    - **Answer:** To guarantee data integrity. The dimensions of a tensor are structural properties that should not be accidentally modified by `.append()` or `del`.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 5.4: Sets (The Duplicate Killer)</summary>
+
+In AI, you often get messy data with millions of duplicates. If you use a List to clean it, your code will be slow. If you use a **Set**, it will be instant.
+
+### 1. The Mental Model: The Bouncer's List
+
+- **List (`[]`):** A **Queue** outside a club. People are standing in order. The same person can stand in line twice (Duplicates allowed).
+- **Set (`{}`):** The **Guest List** on the clipboard.
+    - **Rule 1 (Unordered):** The Bouncer doesn't care *when* you arrived. He just checks *if* you are on the list.
+    - **Rule 2 (Unique):** Your name can only appear **ONCE**. If you try to write "Shakil" twice, the second one is ignored.
+
+**Why use them?**
+
+1. **Deduplication:** Instantly removing duplicates from a dataset.
+2. **Speed:** Checking `if item in list` is slow ($O(n)$). Checking `if item in set` is instant ($O(1)$).
+
+**Syntax:**
+
+```jsx
+# Empty Set (Tricky!)
+my_set = set()      # Correct
+# my_set = {}       # WRONG! This creates an empty Dictionary.
+
+# Populated Set
+colors = {"Red", "Green", "Blue", "Red"}
+print(colors)
+# Output: {'Red', 'Green', 'Blue'} -> "Red" disappeared!
+```
+
+### 2. Set Operations (The Venn Diagram)
+
+This is High School Math (Sets Theory), but applied to Code.
+
+Imagine you have two datasets:
+
+- **A:** Students who like AI.
+- **B:** Students who like Web Dev.
+
+**A. Union (`|`) - "OR"**
+
+"Give me students who like AI **OR** Web Dev (or both)."
+
+- Combines everything. Removes duplicates.
+
+```jsx
+A = {1, 2, 3}
+B = {3, 4, 5}
+print(A | B) # {1, 2, 3, 4, 5}
+```
+
+**B. Intersection (`&`) - "AND"**
+
+"Give me students who like AI **AND** Web Dev."
+
+- Only takes the common items.
+
+`print(A & B) # {3}`
+
+**C. Difference (`-`) - "NOT"**
+
+"Give me students who like AI but **NOT** Web Dev."
+
+- Removes B from A.
+
+`print(A - B) # {1, 2} (3 was removed because it is in B)`
+
+**D. Symmetric Difference (`^`) - "XOR"**
+
+"Give me students who like **ONLY ONE** topic (not both)."
+
+- Removes the common items.
+
+`print(A ^ B) # {1, 2, 4, 5} (3 is gone)`
+
+### 3. Mathematical Relevance in AI
+
+Sets are not just for cleaning lists. They are the math behind **Accuracy Metrics**.
+
+**1. NLP Vocabulary:**
+
+- To train a Chatbot (like ChatGPT), you first need to know: *How many unique words are in this book?*
+- You just convert the text to a Set. `vocab_size = len(set(text.split()))`.
+
+**2. IoU (Intersection over Union):**
+
+- In Object Detection (YOLO), how do we know if the AI found the car correctly?
+- We compare the **Predicted Box** (Set A) vs. the **Actual Box** (Set B).
+- Formula:
+
+```math
+ \frac{\text{Area of Overlap (A \& B)}}{\text{Total Area (A | B)}}
+```
+
+- If IoU is close to 1, the AI is a genius. If 0, it missed completely.
+
+### Senior Engineer Tips
+
+**1. The "List to Set" Trick:**
+
+The fastest way to remove duplicates in Python.
+
+```jsx
+names = ["Alice", "Bob", "Alice", "Charlie", "Bob"]
+
+# X BAD (Junior Loop)
+unique = []
+for n in names:
+    if n not in unique:
+        unique.append(n)
+
+# ☑ GOOD (Senior One-Liner)
+unique = list(set(names))
+```
+
+**2. The Lookup Speed:**
+
+Never use a List for a "Blacklist" or "Whitelist" of millions of items.
+
+- **List:** Python checks item 1, item 2, item 3... (Slow).
+- **Set:** Python hashes the item and jumps directly to its location in memory (Instant).
+
+### Interview Questions
+
+1. **Basic:** *Why can't I access `my_set[0]`?*
+    - **Answer:** Sets are **Unordered**. There is no "first" or "second" item. The computer stores them wherever it fits best in memory.
+2. **Intermediate:** *Can I put a List inside a Set?*
+    - **Answer:** **NO.** Sets can only contain *Immutable* (hashable) items. You can put a Tuple inside a Set, but not a List. (Because if the List changes, the Set breaks).
+3. **Scenario:** *You have two lists of 1 million IDs. How do you find the common IDs efficiently?*
+    - **Answer:** Convert both lists to sets (`set(list1)`, `set(list2)`) and use the Intersection operator (`&`). This is exponentially faster than a nested loop.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 5.5: Dictionaries (The Brain of AI)</summary>
+
+If Lists are "Shelves," **Dictionaries** are the **Map**.
+
+In AI, almost every dataset (JSON), every configuration file, and every model weight is stored as a Dictionary. If you master this, you master Data Engineering.
+
+### 1. The Mental Model: The Supermarket
+
+- **List (`[]`):** A **Shopping Cart**. You throw items in. To find the milk, you have to dig through the whole cart (Index 0, Index 1, Index 2...). This is slow (O(n)).
+- **Dictionary (`{}`):** The **Supermarket Aisle Sign**.
+    - You don't look at every item. You look for the **Key** ("Dairy").
+    - You instantly find the **Value** (Milk).
+    - **Speed:** It is Instant (O(1)). Even if the store has 1 million items, finding "Dairy" takes the same amount of time as finding "Fruit".
+
+**Syntax:** `Key : Value` pairs.
+
+```jsx
+# Empty Dict
+user = {}
+
+# Populated
+user = {
+    "name": "Shakil",   # Key: "name", Value: "Shakil"
+    "age": 25,          # Key: "age", Value: 25
+    "is_admin": True    # Key: "is_admin", Value: True
+}
+```
+
+### 2. Key-Value Logic (The Rules)
+
+A Dictionary is picky about its Keys, but relaxed about its Values.
+
+**Rule 1: Keys must be Unique.**
+
+You cannot have two "name" keys. If you add a second one, it **overwrites** the first one.
+
+```jsx
+data = {"a": 1, "a": 2}
+print(data) # Output: {'a': 2} (The 1 is gone forever)
+```
+
+**Rule 2: Keys must be Immutable (Hashable).**
+
+- **Allowed:** Strings, Numbers, Tuples.
+- **BANNED:** Lists, Dictionaries. (Because they can change, and if the key changes, the map breaks).
+
+### 3. Nested Dictionaries (The JSON Structure)
+
+This is exactly how data looks in the real world (APIs, MongoDB).
+
+A Dictionary inside a Dictionary.
+
+**Scenario:** Representing a User Profile.
+
+```jsx
+user = {
+    "id": 101,
+    "name": "Alice",
+    "address": {              # Nested Dict
+        "city": "New York",
+        "zip": "10001",
+        "geo": {              # Double Nested!
+            "lat": 40.71,
+            "lng": -74.00
+        }
+    }
+}
+```
+
+**Accessing Data (The Path):**
+
+To get the latitude:
+
+`user["address"]["geo"]["lat"]` -> `40.71`
+
+- **Warning:** If you make a typo (`"addres"`), the whole program crashes. (See Senior Tips for the fix).
+
+### 4. Dictionary Comprehension (The Pro Move)
+
+Just like List Comprehension, but for creating Maps.
+
+**Syntax:** `{ key_expr : value_expr  for item in iterable }`
+
+**Scenario:** You have two lists, Names and Scores. You want to merge them into a Dictionary.
+
+```jsx
+names = ["Alice", "Bob", "Charlie"]
+scores = [85, 90, 78]
+
+# X BAD (Junior Loop)
+grade_book = {}
+for i in range(len(names)):
+    grade_book[names[i]] = scores[i]
+
+# ☑ GOOD (Senior Comprehension)
+# zip() pairs them up: ("Alice", 85)
+grade_book = {name: score for name, score in zip(names, scores)}
+# Output: {'Alice': 85, 'Bob': 90, 'Charlie': 78}
+```
+
+### 5. JSON-Like Structures (The AI Bridge)
+
+**JSON (JavaScript Object Notation)** is the universal language of the internet.
+
+- Good news: Python Dictionaries are 99% identical to JSON.
+- **Why this matters for AI:**
+    - When you download a dataset from Kaggle, it is often a JSON file.
+    - When you use ChatGPT API, you send a JSON (Dict) and get back a JSON (Dict).
+
+**Converting Dict <-> JSON:**
+
+```jsx
+import json
+
+data = {"model": "GPT-4", "price": 0.03}
+
+# Convert Python Dict -> JSON String (Serialization)
+json_str = json.dumps(data)
+
+# Convert JSON String -> Python Dict (Parsing)
+new_data = json.loads(json_str)
+```
+
+### Senior Engineer Tips
+
+**1. Stop Using Bracket Access `[]`:**
+
+If the key doesn't exist, `[]` crashes your app. Use `.get()`.
+
+- **Crashy:** `print(user["phone"])` -> *KeyError: 'phone'*
+- **Safe:** `print(user.get("phone"))` -> *None* (No crash)
+- **Safer:** `print(user.get("phone", "N/A"))` -> *"N/A"* (Default value)
+
+**2. Merging Dictionaries (Python 3.9+):**
+
+The old way (`update()`) was clunky. The new way uses the `|` operator.
+
+```jsx
+default_settings = {"theme": "light", "notifications": True}
+user_settings = {"theme": "dark"}
+
+# Overwrites 'theme', keeps 'notifications'
+config = default_settings | user_settings
+# Result: {'theme': 'dark', 'notifications': True}
+```
+
+### Interview Questions
+
+1. **Basic:** *What is the time complexity of searching for a key in a Dictionary?*
+    - **Answer:** **O(1)** (Average case). It uses a Hash Table to jump directly to the memory address. It does NOT scan the list like a `for` loop.
+2. **Intermediate:** *Can I use a List as a Dictionary Key? Why or why not?*
+    - **Answer:** **No.** Lists are mutable. If you modify the list, its "Hash" changes, and Python would lose track of where the value is stored. You must use a Tuple instead.
+3. **Scenario:** *How do you iterate over both Keys and Values at the same time?*
+    - **Answer:** Use `.items()`.
+    - `for key, value in my_dict.items():`
+    - If you just do `for x in my_dict:`, you only get the Keys.
+
+</details>
+
+</details>
+
+</div>
+
+{/* ============================================================ */}
+{/* MODULE 6 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown">
+<summary><strong>MODULE 6: Advanced Python Concepts (ML-Critical)</strong></summary>
+
+
+
+**Goal:** Write High-Quality ML-Ready Python.
+
+Up until now, you have been writing "Scripts" (Top-to-bottom code). That is fine for small tasks.
+
+But **PyTorch**, **TensorFlow**, and **Scikit-Learn** are built on **Object-Oriented Programming (OOP)**. If you don't understand Classes, you cannot build a custom Neural Network.
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 1: Object-Oriented Programming (OOP)</summary>
+
+### 1. The Mental Model: The Blueprint vs. The House
+
+- **Class (The Blueprint):** It is a piece of paper. It describes a house. It has no walls, no roof, and you cannot live in it. It just defines *how* to build it.
+- **Object (The House):** It is the physical thing built from the blueprint. You can live in it. You can build 50 houses (Objects) from 1 blueprint (Class).
+
+### 2. Classes & Objects (The Syntax)
+
+We use `class` to define the blueprint.
+
+```jsx
+# The Blueprint
+class Dog:
+    pass
+
+# The Objects (Instantiation)
+dog1 = Dog()
+dog2 = Dog()
+```
+
+### 3. The `__init__` Method (The Constructor)
+
+When you build a house, you need to set up the foundation *immediately*.
+
+In Python, `__init__` is a special function that runs **automatically** the moment an object is created.
+
+- **`self`:** This is the most confusing word for beginners.
+    - **Analogy:** If I give you a blank form to fill out, "Self" means "My Form."
+    - `self.name = name` means "Attach this name to *this specific object*."
+
+```jsx
+class NeuralNetwork:
+    def __init__(self, layers):
+        print("Building Brain...")
+        self.layers = layers  # Instance Variable
+
+# As soon as this runs, __init__ fires.
+model = NeuralNetwork(5)
+# Output: Building Brain...
+```
+
+### 4. Instance vs. Class Variables (The Scope)
+
+- **Instance Variable (`self.x`):** Belongs to **ONE** object. (e.g., Your specific Eye Color).
+- **Class Variable:** Belongs to **ALL** objects. (e.g., Humans have 2 eyes).
+
+**The Trap:**
+
+If you change a Class Variable, it changes for *everyone*.
+
+```jsx
+class Robot:
+    population = 0  # Class Variable (Shared)
+
+    def __init__(self, name):
+        self.name = name     # Instance Variable (Unique)
+        Robot.population += 1 # Update the shared counter
+
+r1 = Robot("R2D2")
+r2 = Robot("C-3PO")
+
+print(Robot.population) # Output: 2 (Shared count)
+```
+
+### 5. Methods (The Behavior)
+
+Functions inside a class are called **Methods**.
+
+They describe what the object can *do*.
+
+- **Instance Methods:** Need `self`. They can access unique data (`self.name`).
+- **Class Methods (`@classmethod`):** Need `cls`. They can access shared data.
+- **Static Methods (`@staticmethod`):** Need nothing. They are just regular functions living inside a class for organization.
+
+### 6. Inheritance (The ML Backbone)
+
+**Concept:** Don't reinvent the wheel. Take an existing class and upgrade it.
+
+**Why ML needs this:**
+
+In PyTorch, you never write a model from scratch. You inherit from `nn.Module`.
+
+`class MyModel(nn.Module):` means "I want all the superpowers of PyTorch, plus my custom layers."
+
+[Image of Python inheritance diagram](https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcTwKs7fh6Ag3IQK9TwXxaByhfJhWReTcqmquPFrXvQxXagOvf6o81obBfLN2usmT7YEqps848LokhtKIrxCvjoGGmFQexSyK6e4Ka0uMgEG3e_e_5U)
+
+```jsx
+# Parent Class
+class Animal:
+    def speak(self):
+        print("Animal Sound")
+
+# Child Class (Inherits from Animal)
+class Dog(Animal):
+    def speak(self):
+        print("Woof!") # Overwriting (Polymorphism)
+
+d = Dog()
+d.speak() # "Woof!" (Not "Animal Sound")
+```
+
+### 7. Polymorphism (The Shape Shifter)
+
+"Poly" (Many) + "Morph" (Forms).
+
+It means different classes can have methods with the **same name**, but they behave differently.
+
+- A `Dog` speaks "Woof".
+- A `Cat` speaks "Meow".
+- But you can call `.speak()` on both without knowing which one it is.
+
+### 8. Encapsulation (The Private Vault)
+
+We want to protect sensitive data (like Weights in a Neural Network) from being messed up by a Junior Engineer.
+
+- **Public:** `name` (Everyone can touch).
+- **Protected:** `_name` (Please don't touch, but you can).
+- **Private:** `__name` (Strictly Forbidden. Python hides it).
+
+```jsx
+class BankAccount:
+    def __init__(self):
+        self.__balance = 1000 # Private variable
+
+acc = BankAccount()
+# print(acc.__balance) # CRASH! AttributeError.
+# You must use a method like .get_balance() to see it.
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2: The "Magic" (Dunder Methods)</summary>
+
+**Dunder** = **D**ouble **Under**score (`__`).
+
+These are the "Hidden Wires" of Python. They let your objects behave like built-in types.
+
+- `__init__`: Constructor.
+- `__str__`: Controls what `print(obj)` shows.
+- `__len__`: Controls what `len(obj)` returns.
+- `__add__`: Controls what `obj + obj` does.
+
+**Example (Custom Math):**
+
+```jsx
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    # The Magic for '+'
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+
+v1 = Vector(2, 4)
+v2 = Vector(1, 1)
+v3 = v1 + v2  # Python calls v1.__add__(v2)
+# v3 is now (3, 5)
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 3: Iterators & Generators (The Memory Saver)</summary>
+
+### 1. The Problem: Memory Crash
+
+Imagine you want to process a CSV file with **1 Billion rows**.
+
+- **List Approach:** Load all 1 billion rows into RAM. -> **Computer Crashes.**
+- **Generator Approach:** Load Row 1, process it, forget it. Load Row 2... -> **Zero Crash.**
+
+### 2. `yield` (The Pause Button)
+
+A regular function `return`s data and dies.
+
+A Generator function `yield`s data and **pauses**. When you call it again, it resumes exactly where it left off.
+
+**The Streaming Analogy:**
+
+- **List:** Downloading the entire 4K movie before watching. (Slow start, high storage).
+- **Generator:** Streaming on Netflix. Buffer 1 minute, watch it, discard it. (Instant start, low storage).
+
+```jsx
+# Generator Function
+def my_generator():
+    yield 1
+    yield 2
+    yield 3
+
+gen = my_generator()
+print(next(gen)) # 1
+print(next(gen)) # 2
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4: Decorators (The Wrapper)</summary>
+
+**Definition:** A function that takes another function and extends its behavior without modifying it.
+
+Used heavily in **Flask/Django** (`@app.route`) and **PyTorch** (`@torch.no_grad`).
+
+**Analogy:** A Gift Wrapper.
+
+- The Gift (Function) is inside.
+- The Wrapper (Decorator) adds beauty (logging, timing, authentication) around it.
+
+```jsx
+def my_decorator(func):
+    def wrapper():
+        print("Before the function runs...")
+        func()
+        print("After the function runs...")
+    return wrapper
+
+@my_decorator
+def say_hello():
+    print("Hello!")
+
+say_hello()
+# Output:
+# Before...
+# Hello!
+# After...
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 5: Context Managers (`with`)</summary>
+
+**The "Door Closer".**
+
+When you open a file, you must close it. If your code crashes before `.close()`, the file stays open and corrupts data.
+
+The `with` statement guarantees the file closes, **even if the code crashes**.
+
+**X BAD (Unsafe):**
+
+```jsx
+f = open("data.txt", "w")
+f.write("Hello")
+# If code crashes here, file never closes!
+f.close()
+```
+
+**☑ GOOD (Safe):**
+
+```jsx
+with open("data.txt", "w") as f:
+    f.write("Hello")
+# Auto-closes here.
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 6: Memory Management Basics</summary>
+
+Python manages memory for you (unlike C++), but you must understand how.
+
+### 1. Reference Counting
+
+Every object has a counter.
+
+- `a = [1, 2]` (Count = 1)
+- `b = a` (Count = 2)
+- `del a` (Count = 1)
+
+### 2. Garbage Collection (The Janitor)
+
+When the Reference Count drops to **0**, the Garbage Collector (GC) comes in and deletes the object to free up RAM.
+
+- **Circular Reference Trap:** If A points to B, and B points to A, the count never hits 0. Python's Cyclic GC handles this periodically.
+
+---
+
+## Senior Engineer Tips
+
+1. **Use `__slots__`:** If you are creating millions of small objects (like particles in a simulation), use `__slots__` in your class to save **40-50% RAM**. It forbids creating new attributes dynamically.
+2. **Decorators for Timing:** Don't write `start = time.time()` inside every function. Write a `@timer` decorator and stick it on any function you want to benchmark.
+
+---
+
+## Interview Questions
+
+1. **Basic:** *What is `self` in Python?*
+    - **Answer:** It is a reference to the **current instance** of the class. It allows each object to maintain its own distinct data.
+2. **Intermediate:** *Difference between `__str__` and `__repr__`?*
+    - **Answer:** `__str__` is for end-users (readable). `__repr__` is for developers (unambiguous, shows how to recreate the object).
+3. **Advanced:** *Explain how `yield` works. Why is it better for Big Data?*
+    - **Answer:** `yield` turns a function into a Generator. Instead of storing the entire result in memory (List), it produces one item at a time (Lazy Evaluation), which prevents RAM overflow when handling massive datasets.</details>
+
+</details>
+
+</div>
+
+
+{/* ============================================================ */}
+{/* MODULE 7 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown">
+<summary><strong>MODULE 7: Error Handling & Debugging (The Safety Net)</strong></summary>
+
+
+**Goal:** Stable, Crash-Resistant Code.
+
+In the real world, things break. APIs go down, files go missing, and users type text into number fields.
+
+- **Junior Dev:** Their code crashes and the user sees a scary red error message.
+- **Senior Dev:** Their code catches the error, logs it, and politely tells the user "Something went wrong, please try again."
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 1: The 3 Types of Errors (The Diagnosis)</summary>
+
+Before we fix bugs, we must name them.
+
+### 1. Syntax Errors (The Grammar Nazi)
+
+- **What:** You violated the rules of the Python language.
+- **When:** Detected **BEFORE** the code runs.
+- **Example:** Forgetting a colon `:`, checking equality with `=` instead of `==`.Python
+
+    ```jsx
+    if x = 5  # SyntaxError: invalid syntax
+    ```
+
+
+### 2. Runtime Errors (The Crash)
+
+- **What:** The grammar is perfect, but the *operation* is illegal.
+- **When:** Happens **WHILE** the code is running.
+- **Example:** Dividing by zero, opening a file that doesn't exist.Python
+
+    ```jsx
+    print(10 / 0) # ZeroDivisionError (Crash!)
+    ```
+
+
+### 3. Logical Errors (The Silent Killer)
+
+- **What:** The code runs perfectly. No crash. But the **result is wrong**.
+- **Why it’s dangerous:** You might lose millions of dollars before you realize the math is wrong.Python
+
+    ```jsx
+    # Goal: Average of 2 and 4
+    avg = 2 + 4 / 2
+    # Result: 4.0 (Wrong! It should be 3.0)
+    # Fix: (2 + 4) / 2
+    ```
+
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2: `try-except-else-finally` (The Safety Net)</summary>
+
+This is how we handle Runtime Errors gracefully.
+
+### 1. The Structure
+
+- **`try`:** "Attempt this dangerous code."
+- **`except`:** "If it crashes, catch the error here."
+- **`else`:** "If it does NOT crash, run this."
+- **`finally`:** "Run this no matter what (Cleanup)."
+
+### 2. The Bank Transaction Example
+
+Imagine you are transferring money.
+
+```jsx
+try:
+    # 1. Risky Operation
+    print("Opening Bank Database...")
+    balance = 100
+    amount = int(input("Enter amount to withdraw: "))
+    result = balance / amount
+
+except ZeroDivisionError:
+    # 2. Specific Crash Handler
+    print("Error: You cannot withdraw $0.")
+
+except ValueError:
+    # 3. Another Crash Handler
+    print("Error: Please enter a number, not text.")
+
+else:
+    # 4. Success Handler
+    print(f"Success! New balance ratio is {result}")
+
+finally:
+    # 5. Cleanup (Always runs)
+    print("Closing Bank Database...")
+```
+
+**Senior Engineer Rule:**
+
+Never use a "Bare Except" (`except:`). It catches *everything*, including you trying to stop the program with Ctrl+C.
+
+- **X BAD:** `except:`
+- **☑ GOOD:** `except Exception as e:` (At least print the error).
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 3: Custom Exceptions (The Specialist)</summary>
+
+Built-in errors (`ValueError`, `TypeError`) are generic.
+
+In a large AI project, you want specific errors like `ModelNotTrainedError` or `DataCorruptedError`.
+
+**How to create one:**
+
+Inherit from the `Exception` class.
+
+```jsx
+class NegativeAgeError(Exception):
+    """Raised when the input age is negative."""
+    pass
+
+def verify_age(age):
+    if age < 0:
+        # We manually trigger the crash
+        raise NegativeAgeError("Age cannot be negative!")
+    print(f"Age {age} is valid.")
+
+try:
+    verify_age(-5)
+except NegativeAgeError as e:
+    print(f"Caught custom error: {e}")
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4: Assertions (The Gatekeeper)</summary>
+
+**Assertions** are sanity checks for **Developers**, not Users.
+
+- "I am 100% sure this variable should be Positive. If it's not, STOP EVERYTHING."
+
+**Syntax:** `assert condition, "Error Message"`
+
+**Use Case in AI:**
+
+Checking matrix shapes. If you try to multiply a (3x3) matrix with a (2x2) matrix, the math is impossible. Catch it early.
+
+```jsx
+def train_model(data):
+    # Sanity Check
+    assert len(data) > 0, "Dataset is empty! Cannot train."
+
+    print("Training started...")
+
+# train_model([]) # This crashes immediately with AssertionError
+```
+
+- **Note:** Assertions can be disabled in production (using python `O` flag), so **never** use them for security checks (like passwords).
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 5: Logging (The Black Box)</summary>
+
+**Stop using `print()` for debugging.**
+
+- `print()` outputs to the console. Once you close the terminal, the history is gone.
+- `logging` writes to a file. If your AI crashes at 3 AM, you can read the log file the next morning.
+
+**The `logging` Module:**
+
+```jsx
+import logging
+
+# Setup the Black Box
+logging.basicConfig(
+    filename="app.log",
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
+def calculate(x):
+    logging.info(f"Received input: {x}")
+    try:
+        return 10 / x
+    except ZeroDivisionError:
+        logging.error("Attempted division by zero!") # Saved to file!
+        return None
+
+calculate(0)
+```
+
+**Log Levels (Hierarchy):**
+
+1. **DEBUG:** Detailed info (Variables, loops).
+2. **INFO:** General events ("User logged in").
+3. **WARNING:** Something odd happened, but code is running ("Disk space low").
+4. **ERROR:** A function failed ("Database connection lost").
+5. **CRITICAL:** The app is dead.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 6: Debugging Strategies (Sherlock Mode)</summary>
+
+When you are stuck, don't just stare at the code.
+
+**1. Rubber Ducking**
+
+- Get a rubber duck (or a pen). Explain your code line-by-line to the duck.
+- *Why it works:* Saying it out loud forces your brain to slow down. You will often hear yourself say the bug.
+
+**2. Bisecting (Binary Search Debugging)**
+
+- You have 100 lines of code. The bug is somewhere.
+- Comment out the bottom 50 lines. Does it still crash?
+    - **Yes:** Bug is in top 50.
+    - **No:** Bug is in bottom 50.
+- Repeat until you isolate the single line.
+
+**3. The IDE Debugger (Breakpoints)**
+
+- Click the "Red Dot" next to line numbers in VS Code.
+- Run in "Debug Mode."
+- The code **pauses** at that line. You can inspect variables in real-time without writing `print()`.
+
+---
+
+## Senior Engineer Tips
+
+1. **Fail Fast:** Don't write code that tries to survive bad data. If the input is garbage, crash immediately (raise an error) so you know about it. Silent bugs are harder to find than loud crashes.
+2. **Lookback Traceback:** When Python errors, it prints a "Traceback" (Wall of Red Text).
+    - **Junior:** Reads the top line.
+    - **Senior:** Reads the **BOTTOM** line first. (That’s the actual error). Then looks up to see *where* it happened.
+
+---
+
+## Interview Questions
+
+1. **Basic:** *What is the difference between `syntax error` and `logical error`?*
+    - **Answer:** Syntax error prevents the code from running (bad grammar). Logical error runs but gives the wrong result (bad math).
+2. **Intermediate:** *When should I use `assert` vs `raise Exception`?*
+    - **Answer:** Use `assert` to check internal logic errors (bugs in your code) that should never happen. Use `raise` to handle external errors (bad user input, missing files) that *might* happen.
+3. **Advanced:** *What happens if I return a value inside `try`, but also have a `finally` block?*
+    - **Answer:** The `finally` block **ALWAYS** runs. Python will pause the `return`, run the `finally` code, and then actually return.
+
+
+
+</details>
+
+</details>
+
+</div>
+
+{/* ============================================================ */}
+{/* MODULE 8 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown">
+<summary><strong>MODULE 8: File Handling & Data I/O</strong></summary>
+
+
+**Goal:** Work with Real-World Data.
+
+Variables live in **RAM**. RAM is volatile (temporary). If you turn off your computer, your variables die.
+
+**Files** live on the **Disk**. They are persistent.
+
+In AI, you will spend 80% of your time reading CSVs, saving Models (Pickle), and processing Images. If you can't handle files, you can't do AI.
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 1: The Basics (Open, Read, Write)</summary>
+
+### 1. File Modes (The Permissions)
+
+Before you touch a file, you must tell Python your **intentions**.
+
+- **`'r'` (Read Only):** The default. You can look, but you can't touch. *Crash if file missing.*
+- **`'w'` (Write):** Overwrites **EVERYTHING**. If the file exists, it wipes it clean and starts fresh. *Creates file if missing.*
+- **`'a'` (Append):** Adds to the end. Does not delete old data. *Creates file if missing.*
+- **`'b'` (Binary):** For non-text files (Images, Audio, Models). Use with others: `'rb'`, `'wb'`.
+
+### 2. The "Context Manager" Rule (`with`)
+
+We discussed this in Module 6. **Never** open a file without `with`.
+
+- **Why?** If your code crashes before you close the file, the file gets "locked" or corrupted. `with` closes it automatically.
+
+**X BAD (Junior - Risky):**
+
+```jsx
+f = open("data.txt", "w")
+f.write("Hello")
+# If code crashes here, file stays open!
+f.close()
+```
+
+**☑ GOOD (Senior - Safe):**
+
+```jsx
+# 'w' mode creates the file
+with open("data.txt", "w", encoding="utf-8") as f:
+    f.write("Hello AI World")
+# Auto-closed here.
+```
+
+- **Senior Tip:** Always specify `encoding="utf-8"`. Windows uses `cp1252` by default, which breaks emojis and special characters.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2: Structured Data (CSV & JSON)</summary>
+
+### 1. CSV Handling (Excel for Robots)
+
+**CSV (Comma Separated Values)** is the standard format for datasets.
+
+- **Python's `csv` module:** Built-in, fast, but verbose.
+- **Pandas (Module 10):** The pro tool. But you must know the basics first.
+
+```jsx
+import csv
+
+data = [
+    ["Name", "Role"],
+    ["Shakil", "Instructor"],
+    ["Rahul", "Student"]
+]
+
+# Writing CSV
+with open("class.csv", "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(data)
+
+# Reading CSV
+with open("class.csv", "r") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        print(row) # ['Name', 'Role']...
+```
+
+### 2. JSON Handling (The Web Language)
+
+**JSON** is a dictionary in text format. It is how APIs (like OpenAI) send data.
+
+- `json.dump(data, file)`: Save Dict to File.
+- `json.load(file)`: Load File to Dict.
+
+```jsx
+import json
+
+config = {
+    "model": "YOLOv8",
+    "batch_size": 32,
+    "paths": ["/data/train", "/data/test"]
+}
+
+# Saving Config
+with open("config.json", "w") as f:
+    json.dump(config, f, indent=4) # indent=4 makes it pretty!
+
+# Loading Config
+with open("config.json", "r") as f:
+    loaded_config = json.load(f)
+    print(loaded_config["model"]) # "YOLOv8"
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 3: Pickle (The Teleporter)</summary>
+
+**Concept:**
+
+JSON handles text. But what if you want to save a **Trained Neural Network** (which is a complex object with layers, weights, and math)? Text cannot represent that.
+
+**Pickle** takes a Python Object (in RAM) and turns it into a Byte Stream (Binary) to save on disk.
+
+- **Serialization (Pickling):** Object -> Bytes.
+- **Deserialization (Unpickling):** Bytes -> Object.
+
+```jsx
+import pickle
+
+# Imagine this is a trained ML model taking 4 hours to train
+model = {"weights": [0.1, 0.5, -0.9], "bias": 0.01}
+
+# Save Model (wb = Write Binary)
+with open("model.pkl", "wb") as f:
+    pickle.dump(model, f)
+
+# Load Model (rb = Read Binary)
+with open("model.pkl", "rb") as f:
+    loaded_model = pickle.load(f)
+
+print(loaded_model) # It remembers everything!
+```
+
+**⚠️ SECURITY WARNING:**
+
+**Never** unpickle a file from a stranger. Pickle can execute malicious code (hack your PC) instantly upon loading. Only unpickle files *you* created.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4: Advanced File Ops</summary>
+
+### 1. Working with Large Files (The Generator Way)
+
+**Scenario:** You have a **10 GB** log file. Your laptop has **8 GB** RAM.
+
+- **`f.read()`**: Tries to load 10 GB into 8 GB RAM. **CRASH.**
+- **`f.readline()`**: Loads one line at a time. Safe.
+
+**The "Lazy" Loop:**
+
+```jsx
+# Efficiently process a massive file
+with open("massive_log.txt", "r") as f:
+    for line in f:  # This is a Generator!
+        if "ERROR" in line:
+            print(line)
+        # Python discards the line from RAM immediately after the loop
+```
+
+### 2. Directory Handling (`pathlib`)
+
+Stop using `os.path.join`. It is ugly strings.
+
+Use **`pathlib`**. It treats paths as **Objects**.
+
+```jsx
+from pathlib import Path
+
+# Create a path object
+folder = Path("datasets") / "images" / "train"
+
+# Check if it exists
+if not folder.exists():
+    folder.mkdir(parents=True) # Create folders recursively!
+
+# List all .jpg files
+for img_path in folder.glob("*.jpg"):
+    print(img_path.name)
+```
+
+- **Senior Tip:** Use `/` operator to join paths. It works on Windows, Mac, and Linux automatically.
+
+---
+
+## Senior Engineer Tips
+
+1. **Buffering:** When writing huge files, Python doesn't write to disk instantly (it's slow). It waits for a "Buffer" (chunk) to fill up, then writes.
+    - *Crash Risk:* If power fails, the buffer data is lost.
+    - *Fix:* `f.flush()` forces a write to disk immediately.
+2. **Relative vs. Absolute Paths:**
+    - **Relative:** `data/file.csv` (Depends on where you run the script from).
+    - **Absolute:** `C:/Users/Shakil/Project/data/file.csv` (Always works, but breaks if you move the folder).
+    - *Best Practice:* Use `pathlib` to find the script's location and build paths relative to that.
+
+---
+
+## Interview Questions
+
+1. **Basic:** *What is the difference between `w` and `a` mode?*
+    - **Answer:** `w` (Write) wipes the file content and starts empty. `a` (Append) adds new data to the end, keeping old content safe.
+2. **Intermediate:** *Why is JSON preferred over Pickle for transferring data between languages?*
+    - **Answer:** JSON is text-based and universal (Python, JS, Java can all read it). Pickle is Python-specific. A Java program cannot understand a Pickle file.
+3. **Scenario:** *Your script reads a config file, but sometimes the file is missing. How do you handle this?*Python
+    - **Answer:** Use a `try-except FileNotFoundError` block. inside the `except`, you can either create a default config or warn the user.
+
+    ```jsx
+    try:
+        with open("config.json") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        print("Config missing! Using defaults.")
+        data = {"default": True}
+    ```
+</details>
+
+</details>
+
+</div>
+
+
+{/* ============================================================ */}
+{/* MODULE 9 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown">
+<summary><strong>MODULE 9: Python for Mathematics (AI Core)</strong></summary>
+
+
+
+Listen closely: **AI is just Math written in Code.**
+
+A Neural Network is just a giant pile of Calculus (Gradients) and Linear Algebra (Matrix Multiplication). If you treat Python like a text editor, you will fail. You must treat Python like a **Calculator**.
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 1: The `math` Module (The Scientific Calculator)</summary>
+
+The **`math`** module is Python's built-in version of that Casio Scientific Calculator you used in high school. It is precise, fast, and written in C.
+
+**Why do we need it in AI?**
+
+- **Activation Functions:** The Sigmoid function uses $e^x$ (`math.exp`).
+- **Loss Functions:** Cross-Entropy Loss uses Natural Log (`math.log`).
+- **Geometry:** Euclidean Distance uses Square Root (`math.sqrt`).
+
+**Essential Functions:**
+
+```jsx
+import math
+
+# 1. Constants (The Universal Truths)
+print(math.pi)  # 3.14159... (Geometry)
+print(math.e)   # 2.71828... (Growth/Decay - Crucial for Sigmoid)
+
+# 2. Powers & Roots
+print(math.pow(2, 3))  # 8.0 (2 to the power of 3)
+print(math.sqrt(25))   # 5.0 (Square Root)
+
+# 3. Exponentials & Logs (The Heart of AI)
+# Used in Softmax (Classification)
+print(math.exp(2))     # e^2
+
+# Used in Loss Calculation (How wrong was the AI?)
+print(math.log(10))    # Natural Log (Base e)
+print(math.log10(100)) # Log Base 10
+```
+
+**Senior Engineer Tip:**
+
+> "Never implement `math.factorial(x)` manually using a `for` loop. The built-in `math.factorial` is highly optimized C code. Your loop is slow. Use the tool."
+>
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 2: The `statistics` Module (The Data Analyst)</summary>
+
+Before you feed data to an AI, you must understand the "Shape" of that data. The **`statistics`** module gives you a quick summary.
+
+**The Big 3 (Central Tendency):**
+
+1. **Mean:** The Average. (Sensitive to Outliers - Bill Gates walks into a bar, everyone becomes a millionaire on average).
+2. **Median:** The Middle Value. (Robust to Outliers - Bill Gates doesn't change the median much).
+3. **Mode:** The Most Common Value.
+
+```jsx
+import statistics
+
+data = [1, 2, 2, 3, 4, 100] # 100 is an outlier!
+
+# 1. Mean (Average)
+print(statistics.mean(data))   # 18.6 (Skewed by 100)
+
+# 2. Median (Middle)
+print(statistics.median(data)) # 2.5 (Ignores the 100. Better representation)
+
+# 3. Mode (Most Frequent)
+print(statistics.mode(data))   # 2
+```
+
+**Standard Deviation (`stdev`):**
+
+This measures **Risk** or **Spread**.
+
+- Low Stdev = Everyone agrees.
+- High Stdev = Chaos.
+- In AI, if your Loss has high variance, your model is confused.
+
+```jsx
+# Low spread
+print(statistics.stdev([10, 10, 10])) # 0.0
+
+# High spread
+print(statistics.stdev([1, 50, 100])) # 49.5 (Huge variance)
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 3: Random Number Generation (The Chaos Engine)</summary>
+
+**The Concept:**
+
+When an AI starts learning, it knows nothing. Its brain is empty.
+
+We cannot initialize weights to 0 (the math breaks).
+
+We must initialize weights to **Random Small Numbers**.
+
+- **Randomness is the Spark of Intelligence.**
+
+**The `random` Module:**
+
+```jsx
+import random
+
+# 1. The Seed (God Mode)
+# If you set this, you get the EXACT same random numbers every time.
+# Crucial for reproducing your experiments.
+random.seed(42)
+
+# 2. Random Float (0.0 to 1.0)
+prob = random.random() # e.g., 0.639...
+if prob > 0.5:
+    print("Heads")
+
+# 3. Random Integer (Inclusive)
+dice = random.randint(1, 6) # 1, 2, 3, 4, 5, or 6
+
+# 4. Choice (Pick one from a list)
+fruits = ["Apple", "Banana", "Cherry"]
+print(random.choice(fruits))
+
+# 5. Shuffle (Deck of Cards)
+# Used to shuffle dataset before training so AI doesn't memorize the order.
+random.shuffle(fruits)
+print(fruits)
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 4: Floating-Point Precision (The Beautiful Lie)</summary>
+
+**The Problem:**
+
+Computers have finite memory (RAM).
+
+Real numbers are infinite (e.g., $\pi$ has infinite decimals).
+
+So, computers **lie**. They chop off the end of the number. This is called **Floating Point Error**.
+
+**The Famous Trap:**
+
+```jsx
+val = 0.1 + 0.2
+print(val)
+# Output: 0.30000000000000004
+# IT IS NOT 0.3!
+```
+
+**Why this breaks AI:**
+
+If you check `if loss == 0.0`, it might never happen because the loss is actually `0.00000000000000001`. The training loop runs forever.
+
+**The Fix:**
+
+Never compare floats directly. Use a **Tolerance (Epsilon)**.
+
+```jsx
+epsilon = 1e-9 # 0.000000001
+if abs(a - b) < epsilon:
+    print("They are equal enough.")
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 5: Numerical Stability (Avoiding The Explosion)</summary>
+
+**Goal:** Prevent **Overflow** and **Underflow**.
+
+### 1. Overflow (The Explosion)
+
+Occurs when a number is **too big** for Python to handle (usually in Deep Learning gradients).
+
+- `math.exp(1000)` -> Python tries to calculate $e^1000$. The number is bigger than the atoms in the universe.
+- **Result:** `OverflowError` or `inf` (Infinity).
+
+### 2. Underflow (The Vanishing)
+
+Occurs when a number is **too small** (close to zero).
+
+- If you multiply probability $0.001 \times 0.001 \times 0.001 \dots$ (100 times).
+- **Result:** The computer gives up and just says `0.0`.
+- **Consequence:** Your AI stops learning because the gradient became zero (Vanishing Gradient Problem).
+
+**The Solution (Log-Sum-Exp Trick):**
+
+This is an advanced technique used in Softmax. Instead of multiplying tiny probabilities (Underflow), we take the **Logarithm** and **Add** them.
+
+- Math Rule: $\log(a \times b) = \log(a) + \log(b)$.
+- Adding numbers is safe. Multiplying tiny numbers is dangerous.
+
+---
+
+## Senior Engineer Tips
+
+1. **Use Numpy (Module 10):**
+    - The `math` module is fine for single numbers. But AI works on **Matrices** (millions of numbers).
+    - `math.sqrt()` works on **one** number. `numpy.sqrt()` works on **arrays** of millions of numbers instantly.
+    - In production AI, you will rarely use `math`. You will use `numpy` or `torch`.
+2. **Avoid Magic Numbers:**
+    - **Bad:** `area = 3.14 * r * r`
+    - **Good:** `area = math.pi * r**2` (More precise).
+
+---
+
+## Interview Questions
+
+1. **Basic:** *What happens if you run `random.random()` without setting a seed?*
+    - **Answer:** Python uses the current **System Time** (in milliseconds) as the seed. Since time always changes, the random numbers will always be different.
+2. **Intermediate:** *Explain the difference between Overflow and Underflow.*
+    - **Answer:** **Overflow** is when a number is too large to be represented (becomes Infinity). **Underflow** is when a number is too precise/small to be represented (becomes Zero). Both destroy AI training.
+3. **Scenario:** *Your AI loss function is returning `NaN` (Not a Number). What is the likely mathematical cause?*
+    - **Answer:** Likely **Numerical Instability**. You probably tried to calculate `log(0)` (undefined) or divided by zero, or `exp(huge_number)` caused an overflow.
+
+
+
+</details>
+
+</details>
+
+</div>
+
+{/* ============================================================ */}
+{/* MODULE 10 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown">
+<summary><strong>MODULE 10: NumPy (The Engine of AI) - Masterclass Edition</strong></summary>
+
+
+
+**Goal:** Vectorized Numerical Computing.
+
+**Status:** **CRITICAL.**
+
+If you treat NumPy arrays like Python lists, you will be fired.
+
+Python is slow. NumPy is fast because it is actually **C code** wrapped in Python. It uses **Contiguous Memory**, **SIMD (Single Instruction, Multiple Data)**, and **Vectorization** to perform math 50x-100x faster than standard Python.
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 10.1: The Architecture (Why Lists Suck)</summary>
+
+### 1. The Physical Memory Difference
+
+To understand why NumPy is fast, you must understand **RAM**.
+
+- **Python List (`[1, 2, 3]`):**
+    - **Pointer Array:** A list is an array of *addresses*, not values.
+    - The value `1` is an Integer Object stored at Address A.
+    - The value `2` is stored at Address B (randomly far away).
+    - **The Cost:** To read the list, the CPU has to jump around memory (Cache Misses). It's like fetching books from 10 different libraries.
+- **NumPy Array (`np.array([1, 2, 3])`):**
+    - **Contiguous Block:** The values are stored side-by-side in one solid block of memory (Address A, A+4 bytes, A+8 bytes).
+    - **The Benefit:** The CPU grabs the whole block in one go (Cache Hits). It's like having all the books on one shelf.
+
+### 2. The Speed Test (Prove it)
+
+Don't take my word for it. Run this.
+
+```jsx
+import numpy as np
+import time
+
+size = 10_000_000 # 10 Million numbers
+
+# Python List
+list_data = list(range(size))
+start = time.time()
+list_result = [x + 5 for x in list_data] # Loop
+print(f"Python List Time: {time.time() - start:.4f} sec")
+
+# NumPy Array
+np_data = np.arange(size)
+start = time.time()
+np_result = np_data + 5 # Vectorized (No loop)
+print(f"NumPy Time:       {time.time() - start:.4f} sec")
+
+# Result: NumPy is usually ~50x faster.
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 10.2: Array Creation (The Factory)</summary>
+
+We don't just type arrays manually. We generate them.
+
+### 1. The Essentials
+
+- **`np.array(list)`**: Converts a list.
+    - *Warning:* NumPy arrays are **Homogeneous**. If you have `[1, 2.5]`, NumPy converts `1` to `1.0` (Float) to make them match.
+- **`np.zeros((3, 4))`**: Matrix of 0s. (Default type is `float64`).
+- **`np.ones((2, 2), dtype=np.int8)`**: Matrix of 1s. You can force the type to save memory.
+- **`np.full((2, 2), 99)`**: Matrix filled with `99`.
+- **`np.eye(3)`**: Identity Matrix (3x3 with 1s on the diagonal). Crucial for Linear Algebra.
+
+### 2. The Number Generators
+
+- **`np.arange(start, stop, step)`**:
+    - Like Python `range`, but returns an array.
+    - `np.arange(0, 10, 2)` → `[0, 2, 4, 6, 8]`
+- **`np.linspace(start, stop, num_points)`** (Linear Space):
+    - **Concept:** "I need 5 pillars evenly spaced between 0 meters and 10 meters."
+    - `np.linspace(0, 10, 5)` → `[0. , 2.5, 5. , 7.5, 10.]`
+    - *Use Case:* Generating X-axis values for graphing.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 10.3: Anatomy & Data Types</summary>
+
+### 1. The Attributes
+
+Checking these prevents 90% of bugs.
+
+- **`arr.ndim`**: Number of Axes (Dimensions). 1 = Vector, 2 = Matrix, 3 = Tensor.
+- **`arr.shape`**: Tuple of dimensions. `(rows, cols)`.
+- **`arr.size`**: Total number of elements ($rows \times cols$).
+- **`arr.itemsize`**: Memory used by ONE element (in bytes).
+
+### 2. Data Types (`dtype`) - Memory Optimization
+
+Python integers vary in size. NumPy integers are fixed.
+
+- **`int8`**: -128 to 127 (1 Byte). Use for Images (0-255).
+- **`int64`**: Huge numbers (8 Bytes). Default.
+- **`float32`**: Standard for Deep Learning (GPU friendly).
+- **`float64`**: Scientific precision (Double).
+
+**Senior Tip:**
+
+> "If you are loading a 10GB dataset of small integers (0-100), convert them to `int8`. You will reduce RAM usage from 10GB to 1.2GB instantly."
+>
+
+```jsx
+arr = np.array([1, 2, 3], dtype='int8')
+print(arr.nbytes) # 3 bytes (Tiny!)
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 10.4: Indexing, Slicing & The "View" Trap</summary>
+
+### 1. Slicing `[start:stop:step]`
+
+Standard Python slicing rules apply, but across multiple dimensions.
+
+- `arr[0:2, 1:3]` → "Rows 0 to 1, Columns 1 to 2".
+
+### 2. The "View" vs "Copy" Trap
+
+**This is the #1 Bug for Juniors.**
+
+In Lists, slicing creates a copy. **In NumPy, slicing creates a VIEW.**
+
+A View is just a window looking at the *original* memory.
+
+```jsx
+arr = np.array([1, 2, 3, 4, 5])
+
+# Slice
+subset = arr[0:2] # Points to index 0 and 1 of 'arr'
+
+# Modify Subset
+subset[0] = 999
+
+# CHECK ORIGINAL
+print(arr)
+# Output: [999, 2, 3, 4, 5]  <-- THE ORIGINAL CHANGED!
+```
+
+- **Fix:** If you want a separate copy, use `.copy()`.
+    - `subset = arr[0:2].copy()`
+
+### 3. Fancy Indexing (Boolean Masking)
+
+Using an array of True/False to pick data.
+
+```jsx
+data = np.array([10, 20, 30, 40])
+mask = data > 25 # [False, False, True, True]
+
+print(data[mask]) # [30, 40]
+```
+
+- **Senior Trick:** `np.where(condition, value_if_true, value_if_false)`
+    - `np.where(data > 25, 1, 0)` → `[0, 0, 1, 1]` (Binarizing data).
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 10.5: Broadcasting (The Magic)</summary>
+
+**Definition:** Broadcasting allows NumPy to perform math on arrays with *different shapes* by virtually "stretching" the smaller one.
+
+**The Rules of Broadcasting:**
+
+1. Align shapes from the **right**.
+2. Two dimensions are compatible if:
+    - They are equal, OR
+    - One of them is **1**.
+
+**Scenario:**
+
+- Matrix A: `(4, 3)`
+- Vector B: `(3,)`
+- **Align Right:**
+    - A: 4, 3
+    - B: 3
+- **Result:** Compatible! NumPy stretches B to be `(4, 3)` (repeats the row 4 times).
+
+**Scenario (Failure):**
+
+- Matrix A: `(4, 3)`
+- Vector C: `(4,)`
+- **Align Right:**
+    - A: 4, 3
+    - C: 4
+- **Result:** Crash! 3 != 4.
+- **Fix:** Reshape C to `(4, 1)`. Then `1` stretches to match `3`.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 10.6: Axis Operations (Collapsing Dimensions)</summary>
+
+Thinking in Axes is crucial for Tensors.
+
+- **Axis 0:** The direction of rows (Down). "Combine rows".
+- **Axis 1:** The direction of columns (Across). "Combine columns".
+
+```jsx
+grid = np.array([
+    [1, 1, 1],
+    [2, 2, 2]
+])
+# Shape: (2, 3)
+
+# Sum Axis 0 (Collapse Rows -> Result is size of columns)
+print(grid.sum(axis=0)) # [3, 3, 3]
+
+# Sum Axis 1 (Collapse Cols -> Result is size of rows)
+print(grid.sum(axis=1)) # [3, 6]
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 10.7: Linear Algebra (`np.linalg`)</summary>
+
+This is the brain of Neural Networks.
+
+### 1. Matrix Multiplication (`dot` vs `@`)
+
+- operator is **Element-wise** (1x1, 2x2).
+- `np.dot(A, B)` or `A @ B` is **Matrix Multiplication** (Row x Column).
+
+```jsx
+A = np.array([[1, 2], [3, 4]])
+B = np.array([[5, 6], [7, 8]])
+
+# Element-wise
+print(A * B) # [[5, 12], [21, 32]]
+
+# Dot Product (Matrix Math)
+print(A @ B) # [[19, 22], [43, 50]]
+```
+
+### 2. Common Functions
+
+- `np.linalg.inv(A)`: Inverse of matrix.
+- `np.linalg.det(A)`: Determinant (Is the matrix singular?).
+- `np.linalg.eig(A)`: Eigenvalues (Used in PCA).
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 10.8: Reshaping & Stacking</summary>
+
+### 1. Reshape (`.reshape()`)
+
+- Change dimensions without changing data.
+- Total size must match.
+- **The "-1" Wildcard:** "I don't care, you calculate it."
+    - `arr.reshape(-1, 1)`: "Make it 1 column, and however many rows fit."
+
+### 2. Flatten (`.flatten()` vs `.ravel()`)
+
+- Turns a matrix into a 1D line.
+- `flatten()` returns a **Copy** (Safe).
+- `ravel()` returns a **View** (Fast, but modifies original if touched).
+
+### 3. Stacking
+
+- `np.vstack([a, b])`: Stack vertically (Add rows).
+- `np.hstack([a, b])`: Stack horizontally (Add columns).
+
+---
+
+## Senior Engineer Tips
+
+1. **Avoid Loops at ALL Costs:** If you see a `for` loop iterating over a NumPy array, it is wrong. Use broadcasting or vectorization.
+2. **Use `np.save` / `np.load`:**
+    - Processing data takes time. Don't re-process it every time you run the script.
+    - Save the processed array: `np.save("data.npy", arr)`.
+    - Load it instantly next time: `arr = np.load("data.npy")`.
+3. **Random Seeds:** Always set `np.random.seed(42)` before training models to ensure your "random" weights are reproducible.
+
+---
+
+## Interview Questions (Deep Dive)
+
+1. **Q:** *Explain the memory layout of NumPy arrays vs Lists.*
+    - **A:** NumPy uses contiguous memory blocks (C-style), allowing CPU SIMD vectorization and efficient cache usage. Lists are arrays of pointers to scattered objects in the heap.
+2. **Q:** *What is the difference between `np.dot()` and ?*
+    - **A:**  is element-wise multiplication. `np.dot` is the algebraic dot product (row-by-column multiplication).
+3. **Q:** *How does Broadcasting work?*
+    - **A:** NumPy compares shapes from the trailing dimension. If dimensions are equal or one of them is 1, the dimension with 1 is stretched to match the other.
+
+</details>
+
+</details>
+
+</div>
+
+{/* ============================================================ */}
+{/* MODULE 11 START                                              */}
+{/* ============================================================ */}
+
+<div className="module-container">
+
+<details className="major-dropdown">
+<summary><strong>MODULE 11: Data Visualization (The Eyes of AI)</strong></summary>
+
+
+**Goal:** Understand Data Visually.
+
+**Warning:** Most beginners think Visualization is about "making pretty charts for PowerPoints."
+
+**Wrong.** In AI, Visualization is a **Debugging Tool**.
+
+- You cannot see a pattern in a spreadsheet with 1 million rows.
+- You **can** see it instantly in a Scatter Plot.
+- If you cannot visualize your data, you are flying blind.
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 11.1: The Philosophy (Matplotlib vs. Seaborn)</summary>
+
+### 1. The Mental Model: The Engine vs. The Car
+
+- **Matplotlib:** This is the **Engine**. It is raw, powerful, and clunky. You have to manually bolt on the wheels, paint the door, and tune the carburetor. You have absolute control, but it takes 10 lines of code to make it look good.
+- **Seaborn:** This is the **Luxury Car** built *on top* of the engine. You just press "Start". It comes with beautiful leather seats (colors), automatic transmission (stats aggregation), and looks professional by default.
+
+**Rule:** Use **Seaborn** for exploration (90% of the time). Use **Matplotlib** when you need to customize every single pixel.
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 11.2: Matplotlib (The Foundation)</summary>
+
+### 1. The Anatomy of a Plot (Figure vs. Axes)
+
+This is the #1 concept that confuses everyone.
+
+- **Figure (`fig`):** The **Canvas** or the blank sheet of paper. It holds everything.
+- **Axes (`ax`):** The **Plot** itself (the X-axis, Y-axis, lines, dots).
+- *Note:* A Figure can have *multiple* Axes (Subplots).
+
+**The "Senior" Way (Object-Oriented):**
+
+Junior devs use `plt.plot()`. Senior devs use `fig, ax = plt.subplots()`.
+
+- *Why?* Because `plt.plot()` is global and messy. The OO method gives you a specific variable (`ax`) to control specific plots.
+
+```jsx
+import matplotlib.pyplot as plt
+
+# X JUNIOR WAY (State-based)
+plt.plot([1, 2, 3], [1, 4, 9])
+plt.title("My Plot")
+
+# ☑ SENIOR WAY (Object-Oriented)
+fig, ax = plt.subplots() # Create the object
+ax.plot([1, 2, 3], [1, 4, 9])
+ax.set_title("My Professional Plot")
+ax.set_xlabel("Time")
+ax.set_ylabel("Growth")
+plt.show()
+```
+
+![image.png](image.png)
+
+### 2. Basic Plots
+
+- **Line Plot (`ax.plot`):** For Trends over Time (Stock prices, Loss curves).
+- **Scatter Plot (`ax.scatter`):** For Relationships between two variables (Height vs. Weight).
+    - *AI Use Case:* Visualizing clusters of data.
+- **Histogram (`ax.hist`):** For Distributions. "Where is most of the data?"
+
+```jsx
+# Histogram Example
+data = [1, 2, 2, 3, 3, 3, 4, 4, 5]
+fig, ax = plt.subplots()
+ax.hist(data, bins=5, color='skyblue', edgecolor='black')
+plt.show()
+```
+
+### 3. Subplots (The Grid)
+
+Comparing data side-by-side.
+
+```jsx
+# Create a 1x2 Grid (1 Row, 2 Columns)
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+ax1.plot(x, y)
+ax1.set_title("Trend")
+
+ax2.scatter(x, y)
+ax2.set_title("Correlation")
+
+plt.show()
+```
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 11.3: Seaborn (The Statistical Powerhouse)</summary>
+
+Import it as `sns`.
+
+### 1. Heatmaps (The Correlation Matrix)
+
+This is the **First Thing** you do in any Data Science project.
+
+- "Does 'Study Hours' correlate with 'Exam Score'?"
+- Heatmap shows numbers as colors. Dark = Strong Correlation.
+
+```jsx
+import seaborn as sns
+import pandas as pd
+
+# Load dataset
+df = pd.read_csv("student_scores.csv")
+
+# Calculate Correlation Matrix
+corr = df.corr()
+
+# Plot Heatmap
+sns.heatmap(corr, annot=True, cmap="coolwarm")
+plt.show()
+```
+
+### 2. Pair Plots (The "God View")
+
+**`sns.pairplot(df)`**
+
+This function is magic. It takes *every* numerical column in your dataset and plots it against *every other* numerical column.
+
+- If you have 4 columns, it creates a 4x4 grid of scatter plots.
+- *Use Case:* Instantly spotting patterns in a new dataset.
+
+`# One line of code for massive insight
+sns.pairplot(df, hue="species") # 'hue' colors the dots by category
+plt.show()`
+
+### 3. Statistical Plots (Box & Violin)
+
+- **Box Plot:** Shows the Median and Outliers.
+- **Violin Plot:** Shows the probability density (Fat part = most data is here).
+
+`sns.boxplot(x="day", y="total_bill", data=tips_df)`
+
+</details>
+
+---
+
+<details className="sub-dropdown">
+<summary>PART 11.4: Customization & Best Practices</summary>
+
+### 1. Labeling (The Golden Rule)
+
+> "A chart without labels is not a chart. It is abstract art."
+>
+
+If you submit a plot without:
+
+1. **Title** (`set_title`)
+2. **X-Label** (`set_xlabel`)
+3. **Y-Label** (`set_ylabel`)
+4. **Legend** (`legend()`)
+
+...you have failed the assignment.
+
+### 2. Dealing with Overplotting (Alpha)
+
+When you have 10,000 dots on a Scatter Plot, they turn into a solid blob.
+
+- **Fix:** Use `alpha=0.1` (Transparency).
+- Now, dark areas mean "Many points stacked here," and light areas mean "Few points."
+
+### 3. Saving High-Res Images
+
+Stop taking screenshots of your plots. They look blurry in reports.
+
+```jsx
+# Save as 300 DPI (Print Quality)
+fig.savefig("my_analysis.png", dpi=300, bbox_inches='tight')
+```
+
+---
+
+## Senior Engineer Tips
+
+1. **Stop Using Pie Charts:**
+    - **Why?** The human brain is terrible at comparing angles. We are good at comparing lengths (Bar Charts).
+    - **Senior Rule:** If you are about to make a Pie Chart, make a Bar Chart instead.
+2. **Colorblindness:**
+    - 8% of men are colorblind. If you use Red and Green to show "Good vs Bad," they can't see it.
+    - **Fix:** Use the `viridis` or `cividis` colormaps in Matplotlib/Seaborn. They are scientifically designed to be visible to everyone.
+3. **The "Data-Ink Ratio":**
+    - Remove anything that isn't data.
+    - Remove heavy gridlines. Remove 3D effects (3D bars are a crime). Remove background colors. Make the data stand out.
+
+---
+
+## Interview Questions
+
+1. **Q:** *What is the difference between a Histogram and a Bar Chart?*
+    - **A:** A **Bar Chart** compares categories (Apples vs Oranges) - there are gaps between bars. A **Histogram** shows the distribution of continuous numbers (Age ranges 0-10, 10-20) - bars touch each other.
+2. **Q:** *Why do we use `fig, ax = plt.subplots()` instead of `plt.plot()`?*
+    - **A:** It gives us direct access to the Axes object, allowing for fine-grained control over individual subplots, which is essential for complex, multi-panel figures.
+3. **Q:** *How do you visualize a dataset with 5 dimensions?*
+    - **A:** Use a Scatter Plot with:
+        1. X-axis (Dim 1)
+        2. Y-axis (Dim 2)
+        3. Color / Hue (Dim 3)
+        4. Size / Bubble (Dim 4)
+        5. Shape / Marker (Dim 5)
+    - (Or use dimensionality reduction like PCA).</details>
+
+</details>
+
+</div>
+

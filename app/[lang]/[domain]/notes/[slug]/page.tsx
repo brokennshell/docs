@@ -1,20 +1,20 @@
-import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { mdxComponents } from "@/components/mdx/MDXComponents";
-import { getNoteContent } from "@/lib/mdx";
-import {
-    getDomainBySlug,
-    getNotesByDomain,
-    getTopicsByDomain,
-    getNoteBySlug,
-    getAllDomainSlugs,
-} from "@/lib/data";
-import NotesSidebar from "@/components/NotesSidebar";
-import SectionedNoteView from "@/components/SectionedNoteView";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import GithubEditLink from "@/components/GithubEditLink";
+import { mdxComponents } from "@/components/mdx/MDXComponents";
+import NotesSidebar from "@/components/NotesSidebar";
 import PageTransition from "@/components/PageTransition";
+import SectionedNoteView from "@/components/SectionedNoteView";
+import {
+    getAllDomainSlugs,
+    getDomainBySlug,
+    getNoteBySlug,
+    getNotesByDomain,
+    getTopicsByDomain,
+} from "@/lib/data";
+import { getNoteContent } from "@/lib/mdx";
 import type { NoteSidebarItem } from "@/types";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { notFound } from "next/navigation";
 
 interface PageProps {
     params: Promise<{
@@ -22,6 +22,17 @@ interface PageProps {
         domain: string;
         slug: string;
     }>;
+}
+
+function sanitizeMdxSourceForCompile(source: string): string {
+    if (!source) return source;
+
+    // Escape `<` only when directly followed by `-` (e.g. `<--`, `<->`) in normal markdown text.
+    // Keep fenced code blocks untouched so code examples render as authored.
+    return source
+        .split(/(```[\s\S]*?```)/g)
+        .map((chunk) => (chunk.startsWith("```") ? chunk : chunk.replace(/<(?=-)/g, "&lt;")))
+        .join("");
 }
 
 export async function generateStaticParams() {
@@ -70,24 +81,39 @@ export default async function NotePage({ params }: PageProps) {
         notFound();
     }
 
-    // Build segments for sectioned view using the content extracted by the utility
+    // Build one continuous segment per top-level part (previously module)
     const sections: { id: string, title: string, element: React.ReactNode }[] = [];
-    mdxData.modules.forEach((mod) => {
-        mod.parts.forEach((part) => {
-            sections.push({
-                id: part.id,
-                title: part.title,
-                element: <MDXRemote source={part.content} components={mdxComponents} />
-            });
+    mdxData.modules.forEach((mod, index) => {
+        sections.push({
+            id: `part-${index + 1}`,
+            title: mod.title,
+            element: (
+                <div className="space-y-10">
+                    {mod.parts.map((part, partIndex) => {
+                        const sectionTitle = part.title?.trim() || `Section ${partIndex + 1}`;
+                        return (
+                            <section
+                                key={part.id}
+                                className="rounded-xl border border-border-primary/20 bg-bg-tertiary/15 p-5 sm:p-6"
+                            >
+                                <h3 className="text-lg sm:text-xl font-semibold text-text-primary mb-4">
+                                    {sectionTitle}
+                                </h3>
+                                <MDXRemote source={sanitizeMdxSourceForCompile(part.content)} components={mdxComponents} />
+                            </section>
+                        );
+                    })}
+                </div>
+            ),
         });
     });
 
     // If no modules found, just render the whole thing as one section
     if (sections.length === 0) {
         sections.push({
-            id: "full-content",
+            id: "part-1",
             title: noteMeta.title,
-            element: <MDXRemote source={mdxData.content} components={mdxComponents} />
+            element: <MDXRemote source={sanitizeMdxSourceForCompile(mdxData.content)} components={mdxComponents} />
         });
     }
 
@@ -107,22 +133,21 @@ export default async function NotePage({ params }: PageProps) {
                 <div className="flex flex-col lg:flex-row min-h-screen gap-8">
                     {/* Left Notes Navigation */}
                     <aside className="w-full lg:w-64 shrink-0 py-8 lg:sticky lg:top-24 h-fit">
-                         <div className="bg-bg-secondary/40 border border-border-primary/50 rounded-2xl p-6 hidden lg:block">
+                        <div className="bg-bg-secondary/40 border border-border-primary/50 rounded-2xl p-6 hidden lg:block">
                             <NotesSidebar domainSlug={domainSlug} items={sidebarItems} />
-                         </div>
-                         <div className="lg:hidden">
+                        </div>
+                        <div className="lg:hidden">
                             <NotesSidebar domainSlug={domainSlug} items={sidebarItems} />
-                         </div>
+                        </div>
                     </aside>
 
                     {/* Main Sectioned Content Area */}
                     <main className="flex-1 min-w-0 py-8">
                         <Breadcrumbs domain={domainData} note={noteMeta} lang={currentLang} />
-                        
+
                         <div className="mt-8">
-                            <SectionedNoteView 
+                            <SectionedNoteView
                                 sections={sections}
-                                modules={mdxData.modules} 
                             />
                         </div>
 
@@ -135,5 +160,3 @@ export default async function NotePage({ params }: PageProps) {
         </PageTransition>
     );
 }
-
-

@@ -1,116 +1,110 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import ModuleSidebar from "@/components/ModuleSidebar";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
-import type { ModuleInfo } from "@/types";
+import { useEffect, useRef, useState } from "react";
 
 interface SectionedNoteViewProps {
     sections: { id: string, title: string, element: React.ReactNode }[];
-    modules: ModuleInfo[];
+    modules?: unknown;
 }
 
-export default function SectionedNoteView({ sections, modules }: SectionedNoteViewProps) {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const contentRef = useRef<HTMLDivElement>(null);
-    const lastIndex = useRef(activeIndex);
+export default function SectionedNoteView({ sections }: SectionedNoteViewProps) {
+    const [activePartId, setActivePartId] = useState(sections[0]?.id ?? "");
+    const isProgrammaticScroll = useRef(false);
+    const effectiveActivePartId =
+        sections.some((section) => section.id === activePartId) ? activePartId : sections[0]?.id ?? "";
 
-    const activeSection = sections[activeIndex];
+    useEffect(() => {
+        if (!sections.length) return;
 
-    useGSAP(() => {
-        if (!contentRef.current || activeIndex === lastIndex.current) return;
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (isProgrammaticScroll.current) return;
 
-        const isNext = activeIndex > lastIndex.current;
-        
-        // GSAP Slide Animation
-        const tl = gsap.timeline();
-        
-        tl.to(contentRef.current, {
-            x: isNext ? -30 : 30,
-            opacity: 0,
-            duration: 0.3,
-            ease: "power2.in",
-            onComplete: () => {
-                lastIndex.current = activeIndex;
-                window.scrollTo({ top: 0, behavior: "instant" });
+                const visible = entries
+                    .filter((entry) => entry.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+                if (visible?.target?.id) {
+                    setActivePartId(visible.target.id);
+                }
+            },
+            {
+                root: null,
+                rootMargin: "-25% 0px -60% 0px",
+                threshold: [0.1, 0.3, 0.6],
             }
-        }).fromTo(contentRef.current, 
-            { x: isNext ? 30 : -30, opacity: 0 },
-            { x: 0, opacity: 1, duration: 0.5, ease: "power2.out" }
         );
 
-    }, { dependencies: [activeIndex], scope: contentRef });
+        sections.forEach((section) => {
+            const element = document.getElementById(section.id);
+            if (element) observer.observe(element);
+        });
+
+        return () => observer.disconnect();
+    }, [sections]);
 
     if (sections.length === 0) return null;
 
+    const handleSelectPart = (id: string) => {
+        setActivePartId(id);
+
+        const target = document.getElementById(id);
+        if (!target) return;
+
+        isProgrammaticScroll.current = true;
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.setTimeout(() => {
+            isProgrammaticScroll.current = false;
+        }, 550);
+    };
+
     return (
         <div className="flex flex-col w-full">
-            <ModuleSidebar 
-                modules={modules} 
-                activePartId={sections[activeIndex].id} 
-                onSelectPart={(id) => {
-                    const index = sections.findIndex(s => s.id === id);
-                    if (index !== -1) setActiveIndex(index);
-                }} 
+            <ModuleSidebar
+                items={sections.map((section) => ({ id: section.id, title: section.title }))}
+                activePartId={effectiveActivePartId}
+                onSelectPart={handleSelectPart}
             />
 
-            <div className="relative overflow-hidden min-h-[500px] mt-12">
-                <div ref={contentRef} className="w-full">
-                    <article className="prose-docs prose-sectioned">
-                        {sections[activeIndex] ? sections[activeIndex].element : (
-                            <div className="py-20 text-center text-text-tertiary">
-                                No content found for this section.
+            <div className="mt-10">
+                <article className="space-y-16">
+                    {sections.map((section) => (
+                        <section
+                            key={section.id}
+                            id={section.id}
+                            className="scroll-mt-36 border border-border-primary/25 rounded-2xl bg-bg-secondary/20 p-6 sm:p-8"
+                        >
+                            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-accent-primary mb-8">
+                                {section.title}
+                            </h2>
+                            <div className="prose-docs prose-sectioned">
+                                {section.element}
                             </div>
-                        )}
-                    </article>
-                    
-                    {/* Navigation Buttons (Chapter Cards) */}
-                    <div className="flex flex-col sm:flex-row items-stretch justify-between gap-4 mt-20 pt-10 border-t border-border-primary/20">
-                        {activeIndex > 0 ? (
-                            <button
-                                onClick={() => setActiveIndex(activeIndex - 1)}
-                                className="flex-1 group flex flex-col items-start gap-1 p-6 rounded-2xl bg-bg-secondary/30 border border-border-primary/30 hover:border-accent-primary transition-all duration-300 active:scale-[0.98]"
-                            >
-                                <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-text-tertiary group-hover:text-accent-primary transition-colors">
-                                    <svg className="w-3 h-3 group-hover:-translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                                    </svg>
-                                    Previous Section
-                                </div>
-                                <div className="text-sm font-semibold text-text-primary mt-1 truncate w-full text-left">
-                                    {sections[activeIndex - 1].title}
-                                </div>
-                            </button>
-                        ) : <div className="flex-1 invisible sm:block" />}
-
-                        {activeIndex < sections.length - 1 ? (
-                            <button
-                                onClick={() => setActiveIndex(activeIndex + 1)}
-                                className="flex-1 group flex flex-col items-end gap-1 p-6 rounded-2xl bg-bg-secondary/30 border border-border-primary/30 hover:border-accent-primary transition-all duration-300 active:scale-[0.98]"
-                            >
-                                <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-text-tertiary group-hover:text-accent-primary transition-colors">
-                                    Next Section
-                                    <svg className="w-3 h-3 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                                        <path d="M5 12h14M12 5l7 7-7 7"/>
-                                    </svg>
-                                </div>
-                                <div className="text-sm font-semibold text-text-primary mt-1 truncate w-full text-right">
-                                    {sections[activeIndex + 1].title}
-                                </div>
-                            </button>
-                        ) : <div className="flex-1 invisible sm:block" />}
-                    </div>
-                </div>
+                        </section>
+                    ))}
+                    <div className="mt-12 pt-8 border-t border-border-primary/20" />
+                </article>
             </div>
 
             <style jsx>{`
-                .prose-sectioned {
-                    min-height: 200px;
+                .prose-sectioned :global(h2) {
+                    margin-top: 2rem;
+                }
+                .prose-sectioned :global(h3) {
+                    margin-top: 1.5rem;
+                }
+                .prose-sectioned :global(pre) {
+                    margin-top: 1rem;
+                    margin-bottom: 1.5rem;
+                }
+                .prose-sectioned :global(blockquote) {
+                    background: rgba(var(--accent-rgb), 0.06);
+                    border-left: 3px solid rgba(var(--accent-rgb), 0.5);
+                    border-radius: 0.75rem;
+                    padding: 0.75rem 1rem;
                 }
             `}</style>
         </div>
     );
 }
-
-

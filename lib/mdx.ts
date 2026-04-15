@@ -1,7 +1,7 @@
 import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
-import { getReadingTime, extractHeadings, extractModules } from "./utils";
+import path from "path";
+import { extractHeadings, extractModules, getReadingTime } from "./utils";
 
 const contentDirectory = path.join(process.cwd(), "content");
 
